@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tbs_app/config/constant.dart';
+import 'package:tbs_app/widget/dashbboard/main_page.dart';
 import 'package:tbs_app/widget/login/login_cubit.dart';
 import 'package:tbs_app/widget/login/login_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tbs_app/widget/dashbboard/main_page.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -18,8 +20,12 @@ class LoginPage extends StatelessWidget {
       body: BlocProvider<LoginCubit>(
         create: (context) => loginCubit,
         child: BlocListener<LoginCubit, LoginState>(
-          listener: (context, state) =>
-              {_loading = (state == LoadingLoginState())},
+          listener: (context, state) {
+            _loading = (state == LoadingLoginState());
+            if (state == SuccessLoginState()) {
+              MaterialPageRoute(builder: (ctx) => MainPage());
+            }
+          },
           child: Stack(
             children: <Widget>[
               Container(
@@ -153,10 +159,13 @@ class LoginPage extends StatelessWidget {
                                             letterSpacing: 1.4),
                                       )),
                                       onPressed: () async {
-                                        loginCubit
-                                            .login(controllerUsername.text,
-                                                controllerPassword.text)
-                                            .then((loginResponse) => {});
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (ctx) => MainPage()));
+                                        // loginCubit
+                                        //     .login(controllerUsername.text,
+                                        //         controllerPassword.text)
+                                        //     .then((loginResponse) => {});
                                       },
                                       elevation: 5,
                                       padding: EdgeInsets.all(0),

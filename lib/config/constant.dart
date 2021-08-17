@@ -20,6 +20,6 @@ double kBaseMargin = 16;
 double kFontSizeSmall = 12;
 double kLetterSpacing = 1.2;
 
-String kServerUrl = 'http://aroomit-payment.test:8081';
-
+// String kServerUrl = 'http://aroomit-payment.test:8081';
+String kServerUrl = 'https://tbs.aroomit.com';
 String label_app = 'Tbs App Mobile';

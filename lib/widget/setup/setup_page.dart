@@ -34,7 +34,7 @@ class SetupPage extends StatelessWidget {
                   RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                          text: "Masukan Websitex2 / Scan QR\ndari Developer",
+                          text: "Masukan Websitex / Scan QR\ndari Developer",
                           style: TextStyle(
                               height: 1.3,
                               fontSize: 18,
