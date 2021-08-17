@@ -1,4 +1,4 @@
-package com.example.tbs_app
+package com.aroomit.tbs_app
 
 import io.flutter.embedding.android.FlutterActivity
 
