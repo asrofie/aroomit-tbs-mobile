@@ -105,5 +105,5 @@ const listTagihanResponseJson = {
 };
 
 List<TagihanModel> sampleListTagihan() {
-  return (ListTagihanResponse.fromJson(listTagihanResponseJson)).data;
+  return ListTagihanResponse.fromJson(listTagihanResponseJson).data!;
 }

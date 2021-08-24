@@ -1,58 +1,77 @@
 class TagihanModel {
-  String? tenantName;
-  String? nik;
+  String? billCode;
+  String? detailBillCode;
+  String? periode;
   String? propertyCode;
-  String? towerBuilding;
-  String? propertyTypeName;
-  String? floorNumber;
-  String? roomNumber;
-  String? roomType;
-  String? roomM2;
-  String? propertyStatus;
   String? idTenantNumber;
+  String? billStatus;
+  String? typeBillName;
+  String? rate;
+  String? qty;
+  String? totalRate;
+  String? vat;
+  String? totalVat;
+  String? denda;
+  String? statusPayment;
+  String? statusPaymentName;
+  String? grandTotal;
 
   TagihanModel(
-      {this.tenantName,
-      this.nik,
+      {this.billCode,
+      this.detailBillCode,
+      this.periode,
       this.propertyCode,
-      this.towerBuilding,
-      this.propertyTypeName,
-      this.floorNumber,
-      this.roomNumber,
-      this.roomType,
-      this.roomM2,
-      this.propertyStatus,
-      this.idTenantNumber});
+      this.idTenantNumber,
+      this.billStatus,
+      this.typeBillName,
+      this.rate,
+      this.qty,
+      this.totalRate,
+      this.vat,
+      this.totalVat,
+      this.denda,
+      this.statusPayment,
+      this.statusPaymentName,
+      this.grandTotal});
 
   factory TagihanModel.fromJson(Map<String, dynamic> json) {
     return TagihanModel(
-      tenantName: json['TenantName'],
-      nik: json['Nik'],
-      propertyCode: json['PropertyCode'],
-      towerBuilding: json['TowerBuilding'],
-      propertyTypeName: json['PropertyTypeName'],
-      floorNumber: json['FloorNumber'],
-      roomNumber: json['RoomNumber'],
-      roomType: json['RoomType'],
-      roomM2: json['RoomM2'],
-      propertyStatus: json['PropertyStatus'],
-      idTenantNumber: json['IdTenantNumber'],
-    );
+        billCode: json['BillCode'],
+        detailBillCode: json['DetailBillCode'],
+        periode: json['Periode'],
+        propertyCode: json['PropertyCode'],
+        idTenantNumber: json['IdTenantNumber'],
+        billStatus: json['BillStatus'],
+        typeBillName: json['TypeBillName'],
+        rate: json['Rate'],
+        qty: json['Qty'],
+        totalRate: json['TotalRate'],
+        vat: json['Vat'],
+        totalVat: json['TotalVat'],
+        denda: json['Denda'],
+        statusPayment: json['StatusPayment'],
+        statusPaymentName: json['StatusPaymentName'],
+        grandTotal: json['GrandTotal']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['TenantName'] = this.tenantName;
-    data['Nik'] = this.nik;
+    data['BillCode'] = this.billCode;
+    data['DetailBillCode'] = this.detailBillCode;
+    data['Periode'] = this.periode;
     data['PropertyCode'] = this.propertyCode;
-    data['TowerBuilding'] = this.towerBuilding;
-    data['PropertyTypeName'] = this.propertyTypeName;
-    data['FloorNumber'] = this.floorNumber;
-    data['RoomNumber'] = this.roomNumber;
-    data['RoomType'] = this.roomType;
-    data['RoomM2'] = this.roomM2;
-    data['PropertyStatus'] = this.propertyStatus;
     data['IdTenantNumber'] = this.idTenantNumber;
+    data['BillStatus'] = this.billStatus;
+    data['TypeBillName'] = this.typeBillName;
+    data['Rate'] = this.rate;
+    data['Qty'] = this.qty;
+    data['TotalRate'] = this.totalRate;
+    data['Vat'] = this.vat;
+    data['TotalVat'] = this.totalVat;
+    data['Denda'] = this.denda;
+    data['StatusPayment'] = this.statusPayment;
+    data['StatusPaymentName'] = this.statusPaymentName;
+    data['GrandTotal'] = this.grandTotal;
     return data;
   }
 }
