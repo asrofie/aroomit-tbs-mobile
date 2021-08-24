@@ -10,7 +10,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  int _currentIndex = 2;
+  int _currentIndex = 0;
 
   @override
   void setState(fn) {
@@ -20,7 +20,9 @@ class MainPageState extends State<MainPage> {
   List<Widget> pages = [
     HomePage(),
     Container(child: Text('Tagihan Page')),
-    PropertyPage()
+    PropertyPage(),
+    Container(child: Text('News Page')),
+    Container(child: Text('Account Page')),
   ];
 
   @override
