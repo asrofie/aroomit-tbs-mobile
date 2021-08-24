@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tbs_app/api/base_api.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/user_model.dart';
 
-class AuthApi {
+class AuthApi extends BaseApi {
   Future<LoginResponse> postLogin(String email, String password) async {
     Uri endpoint = Uri.parse(kServerUrl + "/api/v1/master/usrlgn");
     var response = await http.post(endpoint, body: {
