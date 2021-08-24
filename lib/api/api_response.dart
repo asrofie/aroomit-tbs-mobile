@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/news_model.dart';
+import 'package:tbs_app/model/tagihan_model.dart';
 
 class ApiResponse<T> {
   bool? status;
@@ -33,5 +34,19 @@ class ListNewsResponse extends ApiResponse<List<NewsModel>> {
       });
     }
     return ListNewsResponse(status, data);
+  }
+}
+
+class ListTagihanResponse extends ApiResponse<List<TagihanModel>> {
+  ListTagihanResponse(status, data) : super(status: status, data: data);
+  factory ListTagihanResponse.fromJson(Map<String, dynamic> json) {
+    var status = json['status'];
+    List<TagihanModel> data = [];
+    if (json['data'] != null) {
+      json['data'].forEach((v) {
+        data.add(TagihanModel.fromJson(v));
+      });
+    }
+    return ListTagihanResponse(status, data);
   }
 }

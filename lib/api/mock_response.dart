@@ -1,5 +1,6 @@
 import 'package:tbs_app/api/api_response.dart';
 import 'package:tbs_app/model/property_model.dart';
+import 'package:tbs_app/model/tagihan_model.dart';
 
 const propertyByTenant = {
   "status": true,
@@ -69,4 +70,40 @@ const news = {
 Future<ListNewsResponse> mockListNews() {
   return Future.delayed(
       const Duration(seconds: 2), () => ListNewsResponse.fromJson(news));
+}
+
+const listTagihanResponseJson = {
+  "status": true,
+  "data": [
+    {
+      "TenantName": "LILI",
+      "Nik": "321014210410413",
+      "PropertyCode": "P01",
+      "TowerBuilding": "Mawar",
+      "PropertyTypeName": "APARTEMENT",
+      "FloorNumber": "1",
+      "RoomNumber": "1",
+      "RoomType": "std",
+      "RoomM2": "30.0",
+      "PropertyStatus": "1",
+      "IdTenantNumber": "T0002"
+    },
+    {
+      "TenantName": "LILI",
+      "Nik": "321014210410413",
+      "PropertyCode": "P02",
+      "TowerBuilding": "A",
+      "PropertyTypeName": "APARTEMENT",
+      "FloorNumber": "1",
+      "RoomNumber": "2",
+      "RoomType": "std",
+      "RoomM2": "30.0",
+      "PropertyStatus": "1",
+      "IdTenantNumber": "T0002"
+    }
+  ]
+};
+
+List<TagihanModel> sampleListTagihan() {
+  return (ListTagihanResponse.fromJson(listTagihanResponseJson)).data;
 }
