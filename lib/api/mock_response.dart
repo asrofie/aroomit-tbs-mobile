@@ -1,4 +1,5 @@
 import 'package:tbs_app/api/api_response.dart';
+import 'package:tbs_app/model/property_model.dart';
 
 const propertyByTenant = {
   "status": true,
@@ -35,6 +36,10 @@ const propertyByTenant = {
 Future<ListPropertyResponse> mockListProperty() {
   return Future.delayed(const Duration(seconds: 2),
       () => ListPropertyResponse.fromJson(propertyByTenant));
+}
+
+List<PropertyModel> mockListPropertyOnly() {
+  return (ListPropertyResponse.fromJson(propertyByTenant)).data;
 }
 
 const news = {

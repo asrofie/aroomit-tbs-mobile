@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         fontFamily: 'Roboto',
         primarySwatch: MaterialColor(kPrimaryColor, colorCodes),
       ),
-      home: SetupPage(),
+      home: MainPage(),
     );
   }
 }
