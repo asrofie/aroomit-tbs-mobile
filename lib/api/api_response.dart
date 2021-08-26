@@ -37,7 +37,7 @@ class ListNewsResponse extends ApiResponse<List<NewsModel>> {
   }
 }
 
-class ListTagihanResponse extends ApiResponse<List<TagihanModel>> {
+class ListTagihanResponse extends ApiResponse {
   ListTagihanResponse(status, data) : super(status: status, data: data);
   factory ListTagihanResponse.fromJson(Map<String, dynamic> json) {
     var status = json['status'];

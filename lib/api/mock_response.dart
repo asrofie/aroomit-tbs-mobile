@@ -76,34 +76,44 @@ const listTagihanResponseJson = {
   "status": true,
   "data": [
     {
-      "TenantName": "LILI",
-      "Nik": "321014210410413",
+      "BillCode": "BIL0001",
+      "DetailBillCode": "DBIL0001-0001",
+      "Periode": "2021-07-21",
       "PropertyCode": "P01",
-      "TowerBuilding": "Mawar",
-      "PropertyTypeName": "APARTEMENT",
-      "FloorNumber": "1",
-      "RoomNumber": "1",
-      "RoomType": "std",
-      "RoomM2": "30.0",
-      "PropertyStatus": "1",
-      "IdTenantNumber": "T0002"
+      "IdTenantNumber": "T0001",
+      "BillStatus": "0",
+      "TypeBillName": "AIR",
+      "Rate": "1200",
+      "Qty": "2.00",
+      "TotalRate": "2400",
+      "Vat": "10.00",
+      "TotalVat": "240.00",
+      "Denda": "0.00",
+      "StatusPayment": "1",
+      "StatusPaymentName": "Paid",
+      "GrandTotal": "2640.00"
     },
     {
-      "TenantName": "LILI",
-      "Nik": "321014210410413",
-      "PropertyCode": "P02",
-      "TowerBuilding": "A",
-      "PropertyTypeName": "APARTEMENT",
-      "FloorNumber": "1",
-      "RoomNumber": "2",
-      "RoomType": "std",
-      "RoomM2": "30.0",
-      "PropertyStatus": "1",
-      "IdTenantNumber": "T0002"
+      "BillCode": "BIL0001",
+      "DetailBillCode": "DBIL0001-0002",
+      "Periode": "2021-07-21",
+      "PropertyCode": "P01",
+      "IdTenantNumber": "T0001",
+      "BillStatus": "0",
+      "TypeBillName": "IPL",
+      "Rate": "10000",
+      "Qty": "1.00",
+      "TotalRate": "10000",
+      "Vat": "10.00",
+      "TotalVat": "100.00",
+      "Denda": "0.00",
+      "StatusPayment": "0",
+      "StatusPaymentName": "UnPaid",
+      "GrandTotal": "10100.00"
     }
   ]
 };
 
 List<TagihanModel> sampleListTagihan() {
-  return ListTagihanResponse.fromJson(listTagihanResponseJson).data!;
+  return (ListTagihanResponse.fromJson(listTagihanResponseJson)).data;
 }
