@@ -1,6 +1,7 @@
 import 'package:tbs_app/api/api_response.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/tagihan_model.dart';
+import 'package:tbs_app/model/news_model.dart';
 
 const propertyByTenant = {
   "status": true,
@@ -50,8 +51,8 @@ const news = {
       "NewsContent":
           "&lt;p&gt;&lt;strong&gt;#1: Cek Oli&lt;\/strong&gt;&lt;br \/&gt;Oli mobil harus diganti setiap 5.000-10.000 km untuk memastikan mesin mobil tetap bekerja dengan optimal. Salah satu cara mengetahui oli mobil sudah harus diganti adalah dengan meneteskan sedikit oli di tangan Anda dan merasakan apakah terdapat serpihan-serpihan halus di dalamnya. Jika Anda dapat merasakan serpihan atau kotoran, maka sudah saatnya Anda mengganti oli mobil&lt;br \/&gt;&lt;strong&gt;#2: Pastikan Kopling Berfungsi Normal&lt;\/strong&gt;&lt;\/p&gt;&lt;p&gt;Tips ini berlaku jika mobil Anda bertransmisi manual. Jika kampas kopling Anda sudah mulai aus, maka perpindahan gigi akan semakin berat dan dapat mengganggu kenyamanan berkendara Anda. Persneling yang sulit dipindah merupakan salah satu indikasi kampas kopling mobil Anda mulai aus.&lt;\/p&gt;&lt;p&gt;&lt;strong&gt;#3: Isi Air Radiator Secukupnya&lt;\/strong&gt;&lt;\/p&gt;&lt;p&gt;Air radiator berfungsi untuk mendinginkan mesin saat sedang bekerja. Pastikan Anda mengisi air di tabung radiator secara berkala agar mesin dapat bekerja dengan baik. Selain itu, jika Anda cukup sering menggunakan air wiper, isi tabung air wiper dengan air bersih jika air sudah mulai habis.&lt;\/p&gt;",
       "NewsId": "5ead77b433c0f",
-      "NewsTitle": "3 Tips Merawat Kendaraan",
-      "NewsBanner": "mesin-overheat-42.jpg",
+      "NewsTitle": "Tips Parkir di Apartment",
+      "NewsBanner": "tbs.aroomit.com\/asset\/img\/berita1.jpg",
       "VideoFlag": "0",
       "VideoUrl": ""
     },
@@ -59,10 +60,10 @@ const news = {
       "NewsContent":
           "Di video kali ini kami memberikan tips pemeriksaan kendaraan kalian sebelum bepergian.",
       "NewsId": "5ef05d1794d32",
-      "NewsTitle": "Video : tips pemeriksaan kendaraan",
-      "NewsBanner": "26231044_1736708449713357_5321506511020103734_n.jpg",
+      "NewsTitle": "Video : tips keamanan di Apartment",
+      "NewsBanner": "tbs.aroomit.com\/asset\/img\/berita2.jpg",
       "VideoFlag": "1",
-      "VideoUrl": "G2bKuITH4MQ"
+      "VideoUrl": "LyOm4SuhkNw"
     }
   ]
 };
@@ -116,4 +117,8 @@ const listTagihanResponseJson = {
 
 List<TagihanModel> sampleListTagihan() {
   return (ListTagihanResponse.fromJson(listTagihanResponseJson)).data;
+}
+
+List<NewsModel> sampleListNews() {
+  return (ListNewsResponse.fromJson(news)).data;
 }

@@ -24,7 +24,7 @@ class App extends StatelessWidget {
         fontFamily: 'Roboto',
         primarySwatch: MaterialColor(kPrimaryColor, colorCodes),
       ),
-      home: TagihanPage(),
+      home: MainPage(),
     );
   }
 }

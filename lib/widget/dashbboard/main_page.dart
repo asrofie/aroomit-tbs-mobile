@@ -3,6 +3,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/widget/dashbboard/home_page.dart';
 import 'package:tbs_app/widget/dashbboard/property/property_page.dart';
+import 'package:tbs_app/widget/dashbboard/news/news_page.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  int _currentIndex = 0;
+  int _currentIndex = 3;
 
   @override
   void setState(fn) {
@@ -21,7 +22,7 @@ class MainPageState extends State<MainPage> {
     HomePage(),
     Container(child: Text('Tagihan Page')),
     PropertyPage(),
-    Container(child: Text('News Page')),
+    NewsPage(),
     Container(child: Text('Account Page')),
   ];
 

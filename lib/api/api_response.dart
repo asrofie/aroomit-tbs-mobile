@@ -23,7 +23,7 @@ class ListPropertyResponse extends ApiResponse {
   }
 }
 
-class ListNewsResponse extends ApiResponse<List<NewsModel>> {
+class ListNewsResponse extends ApiResponse {
   ListNewsResponse(status, data) : super(status: status, data: data);
   factory ListNewsResponse.fromJson(Map<String, dynamic> json) {
     var status = json['status'];
