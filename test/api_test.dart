@@ -19,8 +19,15 @@ void main() {
 
   test('List News', () async {
     var api = ApiService();
-    var response = await api.findNews();
+    var response = await api.findNews("C02");
     expect(response.status, true);
     expect(response.data!.length, 2);
+  });
+
+  test('Detail News', () async {
+    var api = ApiService();
+    var response = await api.getNews("C02", "5ead77b433c0f");
+    expect(response.status, true);
+    expect(response.data!.length, 1);
   });
 }

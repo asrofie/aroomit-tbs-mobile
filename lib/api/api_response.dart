@@ -50,3 +50,17 @@ class ListTagihanResponse extends ApiResponse {
     return ListTagihanResponse(status, data);
   }
 }
+
+class NewsDetailResponse extends ApiResponse {
+  NewsDetailResponse(status, data) : super(status: status, data: data);
+  factory NewsDetailResponse.fromJson(Map<String, dynamic> json) {
+    var status = json['status'];
+    List<NewsModel> data = [];
+    if (json['data'] != null) {
+      json['data'].forEach((v) {
+        data.add(NewsModel.fromJson(v));
+      });
+    }
+    return NewsDetailResponse(status, data);
+  }
+}

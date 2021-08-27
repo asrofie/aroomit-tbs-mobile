@@ -17,14 +17,30 @@ class ApiService extends BaseApi {
     throw Exception(response.statusMessage);
   }
 
-  Future<ListNewsResponse> findNews() async {
+  Future<ListNewsResponse> findNews(String companyCode) async {
     if (this.isWeb()) {
       return await mockListNews();
     }
     Dio dio = this.getClient();
-    Response response = await dio.get('/api/v1/news/get');
+    var formData = FormData.fromMap({"CompanyCode": companyCode});
+    Response response = await dio.post('/api/v1/news/get', data: formData);
     if (response.statusCode == 200) {
       return ListNewsResponse.fromJson(response.data);
+    }
+    throw Exception(response.statusMessage);
+  }
+
+  Future<NewsDetailResponse> getNews(String companyCode, String newsId) async {
+    if (this.isWeb()) {
+      return await mockNewsDetail();
+    }
+    Dio dio = this.getClient();
+    var formData =
+        FormData.fromMap({"CompanyCode": companyCode, "NewsId": newsId});
+    Response response =
+        await dio.post('/api/v1/news/get/detail', data: formData);
+    if (response.statusCode == 200) {
+      return NewsDetailResponse.fromJson(response.data);
     }
     throw Exception(response.statusMessage);
   }

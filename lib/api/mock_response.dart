@@ -122,3 +122,27 @@ List<TagihanModel> sampleListTagihan() {
 List<NewsModel> sampleListNews() {
   return (ListNewsResponse.fromJson(news)).data;
 }
+
+const newsDetail = {
+  "status": true,
+  "data": [
+    {
+      "NewsContent":
+          "&lt;p&gt;&lt;strong&gt;#1: Cek Oli&lt;\/strong&gt;&lt;br \/&gt;Oli mobil harus diganti setiap 5.000-10.000 km untuk memastikan mesin mobil tetap bekerja dengan optimal. Salah satu cara mengetahui oli mobil sudah harus diganti adalah dengan meneteskan sedikit oli di tangan Anda dan merasakan apakah terdapat serpihan-serpihan halus di dalamnya. Jika Anda dapat merasakan serpihan atau kotoran, maka sudah saatnya Anda mengganti oli mobil&lt;br \/&gt;&lt;strong&gt;#2: Pastikan Kopling Berfungsi Normal&lt;\/strong&gt;&lt;\/p&gt;&lt;p&gt;Tips ini berlaku jika mobil Anda bertransmisi manual. Jika kampas kopling Anda sudah mulai aus, maka perpindahan gigi akan semakin berat dan dapat mengganggu kenyamanan berkendara Anda. Persneling yang sulit dipindah merupakan salah satu indikasi kampas kopling mobil Anda mulai aus.&lt;\/p&gt;&lt;p&gt;&lt;strong&gt;#3: Isi Air Radiator Secukupnya&lt;\/strong&gt;&lt;\/p&gt;&lt;p&gt;Air radiator berfungsi untuk mendinginkan mesin saat sedang bekerja. Pastikan Anda mengisi air di tabung radiator secara berkala agar mesin dapat bekerja dengan baik. Selain itu, jika Anda cukup sering menggunakan air wiper, isi tabung air wiper dengan air bersih jika air sudah mulai habis.&lt;\/p&gt;",
+      "NewsId": "5ead77b433c0f",
+      "NewsTitle": "Tips Parkir di Apartment",
+      "NewsBanner": "tbs.aroomit.com\/asset\/img\/berita1.jpg",
+      "VideoFlag": "0",
+      "VideoUrl": ""
+    }
+  ]
+};
+
+Future<NewsDetailResponse> mockNewsDetail() async {
+  return Future.delayed(
+      Duration(seconds: 2), () => (NewsDetailResponse.fromJson(newsDetail)));
+}
+
+NewsModel sampleNewsDetail() {
+  return (NewsDetailResponse.fromJson(newsDetail)).data[0];
+}
