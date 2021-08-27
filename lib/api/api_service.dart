@@ -44,4 +44,18 @@ class ApiService extends BaseApi {
     }
     throw Exception(response.statusMessage);
   }
+
+  Future<ListTagihanResponse> findTagihan(
+      String idTenant, String propertyCode) async {
+    if (this.isWeb()) {
+      return await mockListTagihan();
+    }
+    Dio dio = this.getClient();
+    Response response = await dio.get('/api/v1/trans/listbill',
+        queryParameters: {"idtenant": idTenant, "propertycode": propertyCode});
+    if (response.statusCode == 200) {
+      return ListTagihanResponse.fromJson(response.data);
+    }
+    throw Exception(response.statusMessage);
+  }
 }

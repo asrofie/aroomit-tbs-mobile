@@ -30,4 +30,11 @@ void main() {
     expect(response.status, true);
     expect(response.data!.length, 1);
   });
+
+  test('List Tagihan', () async {
+    var api = ApiService();
+    var response = await api.findTagihan("T0001", "P01");
+    expect(response.status, true);
+    expect(response.data!.length, 2);
+  });
 }

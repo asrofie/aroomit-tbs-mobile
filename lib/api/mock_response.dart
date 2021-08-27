@@ -119,6 +119,11 @@ List<TagihanModel> sampleListTagihan() {
   return (ListTagihanResponse.fromJson(listTagihanResponseJson)).data;
 }
 
+Future<ListTagihanResponse> mockListTagihan() async {
+  return Future.delayed(Duration(seconds: 2),
+      () => (ListTagihanResponse.fromJson(listTagihanResponseJson)));
+}
+
 List<NewsModel> sampleListNews() {
   return (ListNewsResponse.fromJson(news)).data;
 }
