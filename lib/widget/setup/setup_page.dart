@@ -4,6 +4,7 @@ import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/widget/login/login_page.dart';
 import 'package:tbs_app/widget/setup/setup_cubit.dart';
 import 'package:tbs_app/widget/setup/setup_state.dart';
+import 'package:tbs_app/routes.dart' as route;
 
 class SetupPage extends StatelessWidget {
   final setupCubit = SetupCubit();
@@ -116,8 +117,7 @@ class SetupPage extends StatelessWidget {
                               letterSpacing: 1.4),
                         )),
                         onPressed: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (ctx) => LoginPage()));
+                          Navigator.pushNamed(context, route.kRouteLogin);
                         },
                         elevation: 3,
                         padding: EdgeInsets.all(0),

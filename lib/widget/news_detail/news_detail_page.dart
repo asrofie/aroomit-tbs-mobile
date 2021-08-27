@@ -7,8 +7,9 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class NewsDetailPage extends StatelessWidget {
   NewsModel? dataModel = null;
+  String? newsId;
 
-  NewsDetailPage() {
+  NewsDetailPage({Key? key, this.newsId}) : super(key: key) {
     dataModel = sampleNewsDetail();
   }
 

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tbs_app/config/constant.dart';
-import 'package:tbs_app/widget/setup/setup_page.dart';
-import 'package:tbs_app/widget/login/login_page.dart';
-import 'package:tbs_app/widget/dashbboard/main_page.dart';
-import 'package:tbs_app/widget/tagihan/tagihan_page.dart';
-import 'package:tbs_app/widget/news_detail/news_detail_page.dart';
+import 'package:tbs_app/routes.dart' as route;
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
@@ -25,7 +21,8 @@ class App extends StatelessWidget {
         fontFamily: 'Roboto',
         primarySwatch: MaterialColor(kPrimaryColor, colorCodes),
       ),
-      home: NewsDetailPage(),
+      onGenerateRoute: route.generateRoute,
+      initialRoute: route.kRouteSetup,
     );
   }
 }

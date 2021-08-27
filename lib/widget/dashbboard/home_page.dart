@@ -61,6 +61,7 @@ class HomePage extends StatelessWidget {
           Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 title: Text(
                   label_app,
                   style: TextStyle(color: Colors.white),

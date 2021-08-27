@@ -5,7 +5,7 @@ import 'package:tbs_app/widget/login/login_cubit.dart';
 import 'package:tbs_app/widget/login/login_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tbs_app/widget/dashbboard/main_page.dart';
+import 'package:tbs_app/routes.dart' as route;
 
 class LoginPage extends StatelessWidget {
   @override
@@ -159,9 +159,9 @@ class LoginPage extends StatelessWidget {
                                             letterSpacing: 1.4),
                                       )),
                                       onPressed: () async {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (ctx) => MainPage()));
+                                        Navigator.pushReplacementNamed(
+                                            context, route.kRouteMain);
+
                                         // loginCubit
                                         //     .login(controllerUsername.text,
                                         //         controllerPassword.text)
