@@ -58,4 +58,17 @@ class ApiService extends BaseApi {
     }
     throw Exception(response.statusMessage);
   }
+
+  Future<LoginResponse> postLogin(String email, String password) async {
+    if (this.isWeb()) {
+      return await mockLogin(password);
+    }
+    Dio dio = this.getClient();
+    Response response = await dio.get("/api/v1/master/usrlgn",
+        queryParameters: {"userEmail": email, "userPassword": password});
+    if (response.statusCode == 200) {
+      return LoginResponse.fromJson(response.data);
+    }
+    throw Exception(response.statusMessage);
+  }
 }

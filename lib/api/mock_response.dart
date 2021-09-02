@@ -151,3 +151,33 @@ Future<NewsDetailResponse> mockNewsDetail() async {
 NewsModel sampleNewsDetail() {
   return (NewsDetailResponse.fromJson(newsDetail)).data[0];
 }
+
+const sampleLoginPost = {
+  "status": true,
+  "data": [
+    {
+      "CompanyCode": "C02",
+      "CompanyName": "PT MALL GROUP",
+      "IdTenantNumber": "T0001",
+      "Nik": "321014210410412",
+      "TenantName": "JHON DOE",
+      "Address": "JALAN TUKANG SEWA NO 01",
+      "TenantEmail": "SEWA1@GMAIL.COM",
+      "TenantPhone": "0123",
+      "DeviceID": "345345325532",
+      "IconImage": "tbs.aroomit.com\/asset\/imgapartment.png",
+      "AppName": "SUPER BILLING"
+    }
+  ]
+};
+
+const sampleLoginPostFalse = {"status": false, "data": "Incorect Password"};
+
+Future<LoginResponse> mockLogin(String password) async {
+  if (password != "1123465") {
+    return Future.delayed(Duration(seconds: 2),
+        () => (LoginResponse.fromJson(sampleLoginPostFalse)));
+  }
+  return Future.delayed(
+      Duration(seconds: 2), () => (LoginResponse.fromJson(sampleLoginPost)));
+}

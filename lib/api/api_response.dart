@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/news_model.dart';
 import 'package:tbs_app/model/tagihan_model.dart';
+import 'package:tbs_app/model/user_model.dart';
 
 class ApiResponse<T> {
   bool? status;
   T? data;
-  ApiResponse({this.status, this.data});
+  String? message;
+  ApiResponse({this.status, this.data, this.message});
 }
 
 class ListPropertyResponse extends ApiResponse {
@@ -62,5 +64,23 @@ class NewsDetailResponse extends ApiResponse {
       });
     }
     return NewsDetailResponse(status, data);
+  }
+}
+
+class LoginResponse extends ApiResponse {
+  LoginResponse(status, data, message)
+      : super(status: status, data: data, message: message);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    var status = json['status'];
+    List<UserModel> data = [];
+    String? mesage = null;
+    if (status && json['data'] != null) {
+      json['data'].forEach((v) {
+        data.add(UserModel.fromJson(v));
+      });
+    } else {
+      mesage = json['data'];
+    }
+    return LoginResponse(status, data, mesage);
   }
 }
