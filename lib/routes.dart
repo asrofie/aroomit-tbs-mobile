@@ -4,6 +4,7 @@ import 'package:tbs_app/widget/login/login_page.dart';
 import 'package:tbs_app/widget/dashbboard/main_page.dart';
 import 'package:tbs_app/widget/tagihan/tagihan_page.dart';
 import 'package:tbs_app/widget/news_detail/news_detail_page.dart';
+import 'package:tbs_app/widget/payment/payment_page.dart';
 
 const kRouteSetup = "/setup";
 const kRouteLogin = "/login";
@@ -11,6 +12,7 @@ const kRouteForgot = "/forgot";
 const kRouteMain = "/main";
 const kRouteTagihan = "/tagihan";
 const kRouteNewsDetail = "/news";
+const kRoutePayment = "/payment";
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -27,6 +29,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         var NewsId = settings.arguments;
         return MaterialPageRoute(
             builder: (context) => NewsDetailPage(newsId: NewsId.toString()));
+      }
+    case kRoutePayment:
+      {
+        var DetailBillCode = settings.arguments;
+        return MaterialPageRoute(
+            builder: (context) => PaymentPage(DetailBillCode.toString()));
       }
   }
   return MaterialPageRoute(builder: (context) => SetupPage());

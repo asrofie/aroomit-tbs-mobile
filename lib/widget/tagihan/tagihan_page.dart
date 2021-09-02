@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tbs_app/api/mock_response.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/tagihan_model.dart';
+import 'package:tbs_app/routes.dart' as route;
 
 class TagihanPage extends StatelessWidget {
   List<TagihanModel> dataModel = [];
@@ -45,7 +46,7 @@ class TagihanPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: (dataModel.length * 10),
                     itemBuilder: (context, index) {
-                      return listTile(dataModel[0]);
+                      return listTile(context, dataModel[0]);
                     },
                   ))
             ]),
@@ -102,65 +103,68 @@ class TagihanPage extends StatelessWidget {
     ]);
   }
 
-  listTile(TagihanModel model) {
-    return Card(
-        margin: EdgeInsets.symmetric(
-            horizontal: kBaseMargin, vertical: (kBaseMargin * 0.5)),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kRadius),
-        ),
-        elevation: kElevation,
-        child: SizedBox.fromSize(
-          size: Size(double.infinity, 80),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: SizedBox.fromSize(
-                        size: Size(50, 50),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Center(
-                              child: Text(
-                            model.typeBillName!.substring(0, 3),
-                            textAlign: TextAlign.center,
-                          )),
-                        ),
-                      )),
-                  SizedBox.fromSize(
-                      size: Size(100, 50),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              model.qty!,
-                              textAlign: TextAlign.center,
+  listTile(context, TagihanModel model) {
+    return GestureDetector(
+        onTap: () => Navigator.of(context)
+            .pushNamed(route.kRoutePayment, arguments: model.detailBillCode),
+        child: Card(
+            margin: EdgeInsets.symmetric(
+                horizontal: kBaseMargin, vertical: (kBaseMargin * 0.5)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kRadius),
+            ),
+            elevation: kElevation,
+            child: SizedBox.fromSize(
+              size: Size(double.infinity, 80),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: SizedBox.fromSize(
+                            size: Size(50, 50),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Center(
+                                  child: Text(
+                                model.typeBillName!.substring(0, 3),
+                                textAlign: TextAlign.center,
+                              )),
                             ),
-                            Text(
-                              model.periode!,
-                              textAlign: TextAlign.center,
-                            )
-                          ]))
-                ]),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: SizedBox.fromSize(
-                        size: Size(200, 50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              model.grandTotal!,
-                              textAlign: TextAlign.right,
-                            )
-                          ],
-                        )))
-              ]),
-        ));
+                          )),
+                      SizedBox.fromSize(
+                          size: Size(100, 50),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  model.qty!,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  model.periode!,
+                                  textAlign: TextAlign.center,
+                                )
+                              ]))
+                    ]),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: SizedBox.fromSize(
+                            size: Size(200, 50),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  model.grandTotal!,
+                                  textAlign: TextAlign.right,
+                                )
+                              ],
+                            )))
+                  ]),
+            )));
   }
 }
