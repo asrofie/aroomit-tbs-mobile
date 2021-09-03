@@ -14,7 +14,7 @@ class BaseApi {
   getClient() {
     var options = BaseOptions(
       baseUrl: kServerUrl,
-      connectTimeout: 5000,
+      connectTimeout: 30000,
       receiveTimeout: 3000,
     );
     var dio = Dio(options);

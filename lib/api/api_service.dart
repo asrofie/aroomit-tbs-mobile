@@ -64,8 +64,9 @@ class ApiService extends BaseApi {
       return await mockLogin(password);
     }
     Dio dio = this.getClient();
-    Response response = await dio.get("/api/v1/master/usrlgn",
-        queryParameters: {"userEmail": email, "userPassword": password});
+    var formData =
+        FormData.fromMap({"userEmail": email, "userPassword": password});
+    Response response = await dio.post("/api/v1/master/usrlgn", data: formData);
     if (response.statusCode == 200) {
       return LoginResponse.fromJson(response.data);
     }

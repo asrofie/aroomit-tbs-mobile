@@ -46,28 +46,37 @@ class LoginPage extends StatelessWidget {
               }
             },
             builder: (ctx, state) {
+              final heightForm = MediaQuery.of(mainContext).size.height * 0.4;
               return SafeArea(
                   maintainBottomViewPadding: true,
                   child: Stack(
                     children: <Widget>[
                       Container(
+                          alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(top: kBaseMargin),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(kRadius),
+                            child: Image(
+                              image: NetworkImage(
+                                  "https://via.placeholder.com/100x100.png?text=TBS"),
+                              errorBuilder: (ctx, obj, tr) {
+                                return Image(
+                                  image: AssetImage(
+                                      "assets/images/image_placeholder.png"),
+                                  width: 100,
+                                );
+                              },
+                            ),
+                          )),
+                      Center(
+                          child: Container(
                         margin: EdgeInsets.symmetric(horizontal: kBaseMargin),
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(top: 32),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(kRadius),
-                                    child: Image(
-                                      image: NetworkImage(
-                                          "https://via.placeholder.com/100x100.png?text=TBS"),
-                                    ),
-                                  )),
-                              Container(
-                                  margin: EdgeInsets.symmetric(vertical: 32),
+                                  margin: EdgeInsets.only(bottom: kBaseMargin),
                                   child: RichText(
                                       textAlign: TextAlign.center,
                                       text: TextSpan(
@@ -77,7 +86,7 @@ class LoginPage extends StatelessWidget {
                                             fontFamily: 'Roboto',
                                             fontSize: 18,
                                             fontStyle: FontStyle.normal,
-                                            color: Colors.white,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                           )))),
                               Material(
@@ -86,15 +95,14 @@ class LoginPage extends StatelessWidget {
                                       topLeft: Radius.circular(kRadius),
                                       topRight: Radius.circular(kRadius)),
                                   child: Container(
-                                    height: 400,
-                                    padding: EdgeInsets.only(
-                                        top: kBaseMargin,
-                                        left: kBaseMargin,
-                                        right: kBaseMargin),
+                                    height: heightForm,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: kBaseMargin),
                                     child: Column(
                                       children: <Widget>[
                                         Container(
-                                          // decoration: BoxDecoration(color: Colors.green),
+                                          // decoration: BoxDecoration(
+                                          //     color: Colors.green),
                                           margin: EdgeInsets.only(top: 8),
                                           child: Material(
                                               elevation: kElevation,
@@ -140,8 +148,7 @@ class LoginPage extends StatelessWidget {
                                         ),
                                         Container(
                                           // decoration: BoxDecoration(color: Colors.green),
-                                          margin:
-                                              EdgeInsets.only(top: kBaseMargin),
+                                          margin: EdgeInsets.only(top: 8),
                                           child: Material(
                                               elevation: kElevation,
                                               child: Container(
@@ -185,7 +192,7 @@ class LoginPage extends StatelessWidget {
                                         ),
                                         Container(
                                             margin: EdgeInsets.only(
-                                                top: 32, bottom: 100),
+                                                top: kBaseMargin),
                                             child: MaterialButton(
                                               child: IntrinsicWidth(
                                                   child: Text(
@@ -210,66 +217,70 @@ class LoginPage extends StatelessWidget {
                                               height: 48,
                                               minWidth: double.infinity,
                                             )),
-                                        Container(
-                                            child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text("Dengan submit kamu setuju ",
-                                                style: TextStyle(
-                                                  height: 1.3,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: kFontSizeSmall,
-                                                  color: Colors.black45,
-                                                )),
-                                          ],
-                                        )),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            InkWell(
-                                              child: Text(
-                                                  "Syarat dan Ketentuan",
-                                                  style: TextStyle(
-                                                    height: 1.3,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: kFontSizeSmall,
-                                                    color: Colors.blueAccent,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              onTap: () =>
-                                                  launch("https://google.com"),
-                                            ),
-                                            Text(" dan ",
-                                                style: TextStyle(
-                                                  height: 1.3,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: kFontSizeSmall,
-                                                  color: Colors.black45,
-                                                  fontWeight: FontWeight.bold,
-                                                )),
-                                            InkWell(
-                                              child: Text("Kebijakan Privasi",
-                                                  style: TextStyle(
-                                                    height: 1.3,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: kFontSizeSmall,
-                                                    color: Colors.blueAccent,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              onTap: () =>
-                                                  launch("https://google.com"),
-                                            )
-                                          ],
-                                        )
                                       ],
                                     ),
-                                  ))
+                                  )),
                             ],
                           ),
                         ),
-                      )
+                      )),
+                      Container(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: kBaseMargin),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Dengan submit kamu setuju ",
+                                    style: TextStyle(
+                                      height: 1.3,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: kFontSizeSmall,
+                                      color: Colors.black45,
+                                    )),
+                              ],
+                            )),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                InkWell(
+                                  child: Text("Syarat dan Ketentuan",
+                                      style: TextStyle(
+                                        height: 1.3,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: kFontSizeSmall,
+                                        color: Colors.blueAccent,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  onTap: () => launch("https://google.com"),
+                                ),
+                                Text(" dan ",
+                                    style: TextStyle(
+                                      height: 1.3,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: kFontSizeSmall,
+                                      color: Colors.black45,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                InkWell(
+                                  child: Text("Kebijakan Privasi",
+                                      style: TextStyle(
+                                        height: 1.3,
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: kFontSizeSmall,
+                                        color: Colors.blueAccent,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  onTap: () => launch("https://google.com"),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ))
                     ],
                   ));
             }));
