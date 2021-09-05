@@ -19,7 +19,11 @@ double kRadius = 10;
 double kBaseMargin = 16;
 double kFontSizeSmall = 12;
 double kLetterSpacing = 1.2;
+const kFontSize = 18.0;
+const kTotalDummy = 10;
 
 // String kServerUrl = 'http://aroomit-payment.test:8081';
 String kServerUrl = 'https://tbs.aroomit.com';
 String label_app = 'Tbs App Mobile';
+const TextStyle kBodyText =
+    TextStyle(fontSize: kFontSize, color: Colors.black, height: 1.5);

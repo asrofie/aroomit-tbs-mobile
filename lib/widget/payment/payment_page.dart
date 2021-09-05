@@ -41,9 +41,9 @@ class PaymentPageState extends State<PaymentPage> {
                 )),
             InAppWebView(
               initialUrlRequest: URLRequest(
-                  url: Uri.parse(
-                      "http://192.168.1.8:8089/payment/do?DetailBillCode=" +
-                          this.detailBillCode!)),
+                  url: Uri.parse(kServerUrl +
+                      "/payment/do?DetailBillCode=" +
+                      this.detailBillCode!)),
               initialOptions: InAppWebViewGroupOptions(),
               onLoadStop: (InAppWebViewController controller, url) async {},
               onProgressChanged:

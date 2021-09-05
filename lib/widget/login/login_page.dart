@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:tbs_app/bloc/app_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
+import 'package:tbs_app/component/my_button.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/bloc/login_cubit.dart';
 import 'package:tbs_app/bloc/login_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tbs_app/routes.dart' as route;
+import 'package:tbs_app/component/my_text_input.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController controllerUsername = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerUrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     controllerPassword.text = "1123465";
     controllerUsername.text = "SEWA1@GMAIL.COM";
+    controllerUrl.text = kServerUrl;
     return buildLoginPage(context);
   }
 
@@ -34,6 +39,8 @@ class LoginPage extends StatelessWidget {
                 });
               } else if (state is SuccessLoginState) {
                 _onWidgetDidBuild(() {
+                  BlocProvider.of<AppCubit>(mainContext)
+                      .loggedIn(state.userModel!);
                   Navigator.pushReplacementNamed(context, route.kRouteMain);
                 });
               } else if (state is FailureLoginState) {
@@ -101,122 +108,47 @@ class LoginPage extends StatelessWidget {
                                     child: Column(
                                       children: <Widget>[
                                         Container(
-                                          // decoration: BoxDecoration(
-                                          //     color: Colors.green),
-                                          margin: EdgeInsets.only(top: 8),
-                                          child: Material(
-                                              elevation: kElevation,
-                                              child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 4),
-                                                  child: TextFormField(
-                                                    controller:
-                                                        controllerUsername,
-                                                    keyboardType:
-                                                        TextInputType.url,
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                right: 16),
-                                                        labelText: "Email user",
-                                                        labelStyle: TextStyle(
-                                                            color:
-                                                                Colors.black26,
-                                                            fontStyle: FontStyle
-                                                                .italic,
-                                                            fontSize:
-                                                                kFontSizeSmall),
-                                                        prefixIcon: Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      16),
-                                                          child: Icon(
-                                                              Icons.mail,
-                                                              color: Colors
-                                                                  .black26),
-                                                        ),
-                                                        border:
-                                                            InputBorder.none),
-                                                    validator: (text) {
-                                                      if (text!.isEmpty) {
-                                                        return "Email tidak boleh kosong";
-                                                      }
-                                                      return null;
-                                                    },
-                                                  ))),
-                                        ),
+                                            // decoration: BoxDecoration(color: Colors.green),
+                                            margin: EdgeInsets.only(top: 8),
+                                            child: MyTextInput(
+                                              controller: controllerUrl,
+                                              hint: "URL Server / Scan QR",
+                                              icon: Icons.qr_code_2_rounded,
+                                              inputType: TextInputType.url,
+                                            )),
                                         Container(
-                                          // decoration: BoxDecoration(color: Colors.green),
-                                          margin: EdgeInsets.only(top: 8),
-                                          child: Material(
-                                              elevation: kElevation,
-                                              child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 4),
-                                                  child: TextFormField(
-                                                    controller:
-                                                        controllerPassword,
-                                                    obscureText: true,
-                                                    onTap: () {},
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                right: 16),
-                                                        labelText: "Password",
-                                                        labelStyle: TextStyle(
-                                                          color: Colors.black26,
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontSize: 14,
-                                                        ),
-                                                        prefixIcon: Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        16),
-                                                            child: Icon(
-                                                              Icons.lock,
-                                                              color: Colors
-                                                                  .black26,
-                                                            )),
-                                                        border:
-                                                            InputBorder.none),
-                                                    validator: (text) {
-                                                      if (text!.length == 0) {
-                                                        return "Password tidak boleh kosong";
-                                                      }
-                                                      return null;
-                                                    },
-                                                  ))),
-                                        ),
+                                            // decoration: BoxDecoration(color: Colors.green),
+                                            margin: EdgeInsets.only(top: 8),
+                                            child: MyTextInput(
+                                              icon: Icons.email_rounded,
+                                              hint: "Email",
+                                              controller: controllerUsername,
+                                              inputType:
+                                                  TextInputType.emailAddress,
+                                            )),
+                                        Container(
+                                            // decoration: BoxDecoration(color: Colors.green),
+                                            margin: EdgeInsets.only(top: 8),
+                                            child: MyTextInput(
+                                                controller: controllerPassword,
+                                                hint: "Password",
+                                                icon: Icons.lock_rounded,
+                                                inputType: TextInputType.text,
+                                                obsecure: true)),
                                         Container(
                                             margin: EdgeInsets.only(
                                                 top: kBaseMargin),
-                                            child: MaterialButton(
-                                              child: IntrinsicWidth(
-                                                  child: Text(
-                                                "SUBMIT".toUpperCase(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'Arial',
-                                                    letterSpacing: 1.4),
-                                              )),
-                                              onPressed: () async {
-                                                BlocProvider.of<LoginCubit>(
-                                                        mainContext)
-                                                    .login(
-                                                        controllerUsername.text,
-                                                        controllerPassword
-                                                            .text);
-                                              },
-                                              elevation: 5,
-                                              padding: EdgeInsets.all(0),
-                                              color: Color(kPrimaryColor),
-                                              height: 48,
-                                              minWidth: double.infinity,
-                                            )),
+                                            child: MyButton(
+                                                onPress: () {
+                                                  BlocProvider.of<LoginCubit>(
+                                                          mainContext)
+                                                      .login(
+                                                          controllerUsername
+                                                              .text,
+                                                          controllerPassword
+                                                              .text);
+                                                },
+                                                text: "Login")),
                                       ],
                                     ),
                                   )),
