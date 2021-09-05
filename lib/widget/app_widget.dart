@@ -26,7 +26,7 @@ class App extends StatelessWidget {
             primarySwatch: MaterialColor(kPrimaryColor, colorCodes),
           ),
           onGenerateRoute: route.generateRoute,
-          initialRoute: route.kRouteSetup,
+          initialRoute: route.kRouteLogin,
         ));
   }
 }

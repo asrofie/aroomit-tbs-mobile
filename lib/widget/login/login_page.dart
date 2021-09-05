@@ -139,6 +139,8 @@ class LoginPage extends StatelessWidget {
                                             margin: EdgeInsets.only(
                                                 top: kBaseMargin),
                                             child: MyButton(
+                                                disabled:
+                                                    (state is PageLoadingState),
                                                 onPress: () {
                                                   BlocProvider.of<LoginCubit>(
                                                           mainContext)

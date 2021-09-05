@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/news_model.dart';
@@ -40,16 +42,20 @@ class ListNewsResponse extends ApiResponse {
 }
 
 class ListTagihanResponse extends ApiResponse {
-  ListTagihanResponse(status, data) : super(status: status, data: data);
+  ListTagihanResponse(status, data, message)
+      : super(status: status, data: data, message: message);
   factory ListTagihanResponse.fromJson(Map<String, dynamic> json) {
     var status = json['status'];
+    var message = null;
     List<TagihanModel> data = [];
-    if (json['data'] != null) {
+    if (json['data'] is String) {
+      message = json['data'];
+    } else if (json['data'] != null && json['data'] is Array) {
       json['data'].forEach((v) {
         data.add(TagihanModel.fromJson(v));
       });
     }
-    return ListTagihanResponse(status, data);
+    return ListTagihanResponse(status, data, message);
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/widget/setup/setup_page.dart';
 import 'package:tbs_app/widget/login/login_page.dart';
 import 'package:tbs_app/widget/dashbboard/main_page.dart';
@@ -23,7 +24,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case kRouteMain:
       return MaterialPageRoute(builder: (context) => MainPage());
     case kRouteTagihan:
-      return MaterialPageRoute(builder: (context) => TagihanPage());
+      return MaterialPageRoute(
+          builder: (context) => TagihanPage(
+                propertyModel: (settings.arguments as PropertyModel),
+              ));
     case kRouteNewsDetail:
       {
         var NewsId = settings.arguments;

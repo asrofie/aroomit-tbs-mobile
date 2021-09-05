@@ -1,59 +1,113 @@
 import 'package:flutter/material.dart';
-import 'package:tbs_app/api/mock_response.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tbs_app/bloc/app_cubit.dart';
+import 'package:tbs_app/bloc/app_state.dart';
+import 'package:tbs_app/component/simple_shimmer.dart';
 import 'package:tbs_app/config/constant.dart';
+import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/tagihan_model.dart';
+import 'package:tbs_app/bloc/tagihan_cubit.dart';
+import 'package:tbs_app/bloc/tagihan_state.dart';
+import 'package:tbs_app/model/user_model.dart';
 import 'package:tbs_app/routes.dart' as route;
 
-class TagihanPage extends StatelessWidget {
-  List<TagihanModel> dataModel = [];
+class TagihanPage extends StatefulWidget {
+  PropertyModel propertyModel;
+  TagihanPage({Key? key, required this.propertyModel}) : super(key: key);
+  @override
+  _TagihanPage createState() {
+    return _TagihanPage(propertyModel);
+  }
+}
 
-  TagihanPage() {
-    dataModel = sampleListTagihan();
+class _TagihanPage extends State<TagihanPage> {
+  PropertyModel? propertyModel;
+
+  _TagihanPage(this.propertyModel);
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      UserModel? user = BlocProvider.of<AppCubit>(context).user;
+      BlocProvider.of<TagihanCubit>(context)
+          .fetchData(user!, propertyModel!.propertyCode!);
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext c1) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SizedBox.fromSize(
-              size: Size(double.infinity, 100),
-              child: Container(
-                decoration: BoxDecoration(color: Color(0xFF6dcff6)),
+        body: Stack(children: <Widget>[
+      SizedBox.fromSize(
+          size: Size(double.infinity, 100),
+          child: Container(
+            decoration: BoxDecoration(color: Color(0xFF6dcff6)),
+          )),
+      Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Tagihan",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF6dcff6),
+          elevation: 0.0,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(c1);
+              },
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.white,
               )),
-          Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                "Tagihan",
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Color(0xFF6dcff6),
-              elevation: 0.0,
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: Colors.white,
-                  )),
-            ),
-            body: Stack(children: <Widget>[
-              cardProperty(),
-              Padding(
-                  padding: EdgeInsets.only(top: 100, bottom: 16),
-                  child: ListView.builder(
-                    itemCount: (dataModel.length * 10),
+        ),
+        body: BlocConsumer<TagihanCubit, AppState>(
+            bloc: BlocProvider.of<TagihanCubit>(c1),
+            listener: (c2, state) {
+              if (state is TagihanInitPageState) {
+                final user = BlocProvider.of<AppCubit>(c1).user;
+                BlocProvider.of<TagihanCubit>(c1)
+                    .fetchData(user!, propertyModel!.propertyCode!);
+              }
+            },
+            builder: (c2, state) {
+              Size size = MediaQuery.of(c1).size;
+              final height = size.height * 0.3;
+              final width = size.width * 0.8;
+              if (state is PageLoadingState) {
+                return ListView.builder(
+                    itemCount: kTotalDummy,
                     itemBuilder: (context, index) {
-                      return listTile(context, dataModel[0]);
-                    },
-                  ))
-            ]),
-          )
-        ],
-      ),
-    );
+                      return SimpleShimmer();
+                    });
+              } else if (state is SuccessLoadTagihanState) {
+                if (state.data.length == 0) {
+                  return Container(
+                      child: Center(
+                    child: Text("Tidak ada data"),
+                  ));
+                }
+                return Stack(children: <Widget>[
+                  cardProperty(),
+                  Padding(
+                      padding: EdgeInsets.only(top: 100, bottom: 16),
+                      child: ListView.builder(
+                        itemCount: state.data.length,
+                        itemBuilder: (context, index) {
+                          return listTile(context, state.data[0]);
+                        },
+                      ))
+                ]);
+              }
+              return Container(
+                  child: Center(
+                child: Text("Tidak terhubung dengan server"),
+              ));
+            }),
+      )
+    ]));
   }
 
   cardProperty() {
@@ -83,18 +137,20 @@ class TagihanPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Text("Apartement - A",
+                              Text(
+                                  propertyModel!.propertyTypeName! +
+                                      " - " +
+                                      propertyModel!.towerBuilding!,
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold)),
-                              Text("Status")
+                              Text(propertyModel!.propertyStatus!)
                             ])),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Floor 1 / 414"),
-                        Text("Sewa"),
-                        Text("201m2")
+                        Text(propertyModel!.roomType!),
+                        Text(propertyModel!.roomM2! + "m2")
                       ],
                     )
                   ],

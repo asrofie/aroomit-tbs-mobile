@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tbs_app/api/mock_response.dart';
 import 'package:tbs_app/bloc/app_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
 import 'package:tbs_app/bloc/property_cubit.dart';
 import 'package:tbs_app/bloc/property_state.dart';
+import 'package:tbs_app/bloc/tagihan_cubit.dart';
+import 'package:tbs_app/component/simple_shimmer.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/routes.dart' as route;
-import 'package:shimmer/shimmer.dart';
+import 'package:tbs_app/widget/tagihan/tagihan_page.dart';
 
 class PropertyPage extends StatelessWidget {
   List<PropertyModel> dataModel = [];
-  Size iconSize = Size(100, 80);
+  Size iconSize = Size(70, 80);
 
   PropertyPage() {
     // dataModel = mockListPropertyOnly();
@@ -38,40 +39,7 @@ class PropertyPage extends StatelessWidget {
             return ListView.builder(
                 itemCount: kTotalDummy,
                 itemBuilder: (context, index) {
-                  return Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Shimmer.fromColors(
-                              baseColor: Colors.grey,
-                              highlightColor: Colors.grey.withOpacity(0.3),
-                              period: Duration(seconds: 1),
-                              child: SizedBox.fromSize(
-                                  size: Size(width, 16),
-                                  child: Container(
-                                    decoration: ShapeDecoration(
-                                      color: Colors.grey[400]!,
-                                      shape: RoundedRectangleBorder(),
-                                    ),
-                                  )),
-                            ),
-                            Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.grey.withOpacity(0.3),
-                                period: Duration(seconds: 1),
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 4, right: 16),
-                                  child: SizedBox.fromSize(
-                                      size: Size(width, 16),
-                                      child: Container(
-                                        decoration: ShapeDecoration(
-                                          color: Colors.grey[400]!,
-                                          shape: RoundedRectangleBorder(),
-                                        ),
-                                      )),
-                                ))
-                          ]));
+                  return SimpleShimmer();
                 });
           } else if (state is SuccessLoadPropertyState) {
             if (state.data.length == 0) {
@@ -100,10 +68,13 @@ class PropertyPage extends StatelessWidget {
 
   propertyTile(context, PropertyModel model) {
     Size size = MediaQuery.of(context).size;
-    final height = size.height * 0.3;
+    final height = size.height * 0.23;
     final width = size.width * 0.3;
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, route.kRouteTagihan),
+        onTap: () {
+          Navigator.pushNamed(context, route.kRouteTagihan, arguments: model);
+          BlocProvider.of<TagihanCubit>(context).initPage();
+        },
         child: Card(
             margin: EdgeInsets.all(kBaseMargin / 2),
             shape: RoundedRectangleBorder(
@@ -167,7 +138,7 @@ class PropertyPage extends StatelessWidget {
                         ],
                       )),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -3,7 +3,7 @@ import 'package:tbs_app/api/api_service.dart';
 import 'package:tbs_app/bloc/property_cubit.dart';
 import 'package:tbs_app/model/user_model.dart';
 import 'package:tbs_app/validation.dart' as validator;
-import 'package:tbs_app/bloc/login_state.dart';
+import 'package:tbs_app/bloc/tagihan_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -36,6 +36,9 @@ class AppCubit extends Cubit<AppState> {
     if (route == "property") {
       PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
       propertyCubit.fetchData(user!);
+    } else if (route == "tagihan") {
+      TagihanCubit cubit = BlocProvider.of<TagihanCubit>(context);
+      cubit.initPage();
     }
   }
 }

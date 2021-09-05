@@ -63,6 +63,7 @@ class _HomePage extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext mainContext) {
+    AppCubit app = BlocProvider.of<AppCubit>(mainContext);
     return BlocConsumer(
         bloc: BlocProvider.of<HomeCubit>(mainContext),
         listener: (context, state) {
@@ -76,7 +77,7 @@ class _HomePage extends State<HomePage> {
           }
         },
         builder: (context, state) {
-          String tenantName = "-uuuu";
+          String tenantName = app.user!.tenantName!;
           String appName = label_app;
           if (user != null) {
             tenantName = user!.tenantName!;

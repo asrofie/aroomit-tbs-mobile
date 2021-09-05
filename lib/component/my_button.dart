@@ -6,7 +6,13 @@ class MyButton extends StatelessWidget {
   final Function onPress;
   final String text;
   Color? color;
-  MyButton({Key? key, required this.onPress, required this.text, this.color})
+  bool disabled = false;
+  MyButton(
+      {Key? key,
+      required this.onPress,
+      required this.text,
+      this.color,
+      this.disabled = false})
       : super(key: key);
 
   Widget build(BuildContext context) {
@@ -27,10 +33,13 @@ class MyButton extends StatelessWidget {
             letterSpacing: 1.2),
       )),
       onPressed: () async {
+        if (disabled) {
+          return;
+        }
         this.onPress();
       },
       elevation: 5,
-      color: Color(kPrimaryColor),
+      color: (disabled ? Colors.grey : Color(kPrimaryColor)),
       height: height,
       minWidth: width,
     );
