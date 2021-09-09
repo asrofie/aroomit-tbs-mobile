@@ -87,3 +87,29 @@ class LoginResponse extends ApiResponse {
     return LoginResponse(status, data, mesage);
   }
 }
+
+class ForgotResponse extends ApiResponse {
+  ForgotResponse(status, data, message)
+      : super(status: status, data: data, message: message);
+  factory ForgotResponse.fromJson(Map<String, dynamic> json) {
+    var status = json['status'];
+    String mesage = "Tidak terhubung server";
+    if (status && json['data'] != null) {
+      mesage = json['data'];
+    }
+    return ForgotResponse(status, [], mesage);
+  }
+}
+
+class RegisterResponse extends ApiResponse {
+  RegisterResponse(status, data, message)
+      : super(status: status, data: data, message: message);
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) {
+    var status = json['status'];
+    String mesage = "Tidak terhubung server";
+    if (status && json['data'] != null) {
+      mesage = json['data'];
+    }
+    return RegisterResponse(status, [], mesage);
+  }
+}
