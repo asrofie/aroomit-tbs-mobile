@@ -10,7 +10,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tbs_app/routes.dart' as route;
 import 'package:tbs_app/component/my_text_input.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPage createState() {
+    return _LoginPage();
+  }
+}
+
+class _LoginPage extends State<LoginPage> {
+  final PAGE_LOGIN = "page_login";
+  final PAGE_FORGOT = "page_forgot";
+  final PAGE_REGISTER = "page_register";
+
+  _LoginPage() {
+    page = PAGE_LOGIN;
+  }
+
+  String page = "login";
   TextEditingController controllerUsername = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerUrl = TextEditingController();
@@ -31,7 +47,7 @@ class LoginPage extends StatelessWidget {
   buildLoginPage(BuildContext mainContext) {
     return Scaffold(
         body: BlocConsumer<LoginCubit, AppState>(
-            bloc: LoginCubit(),
+            bloc: BlocProvider.of<LoginCubit>(mainContext),
             listener: (context, state) {
               if (state is AlreadyLoginState) {
                 _onWidgetDidBuild(() {
@@ -50,11 +66,27 @@ class LoginPage extends StatelessWidget {
                 ));
               } else if (state is PageInitState) {
                 BlocProvider.of<AppCubit>(mainContext).loginCheck();
+              } else if (state is SuccessApiState) {
+                ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+                  content: Text(state.response.message!),
+                  duration: Duration(seconds: 3),
+                ));
+                if (state.response.status!) {
+                  setState(() {
+                    page = PAGE_LOGIN;
+                  });
+                }
               }
             },
             builder: (ctx, state) {
               final heightForm = MediaQuery.of(mainContext).size.height * 0.57;
               final widthForm = MediaQuery.of(mainContext).size.width * 0.5;
+              String labelButton = "Login";
+              if (page == PAGE_FORGOT) {
+                labelButton = "Submit";
+              } else if (page == PAGE_REGISTER) {
+                labelButton = "Register";
+              }
               return SafeArea(
                   maintainBottomViewPadding: true,
                   child: Stack(
@@ -67,7 +99,7 @@ class LoginPage extends StatelessWidget {
                               image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/setup_bg.png"),
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.fitHeight,
                                   alignment: Alignment.center))),
                       Center(
                         child: Padding(
@@ -99,8 +131,8 @@ class LoginPage extends StatelessWidget {
                                               margin: EdgeInsets.only(top: 8),
                                               child: MyTextInput(
                                                 controller: controllerUrl,
-                                                hint: "URL Server / Scan QR",
-                                                icon: Icons.qr_code_2_rounded,
+                                                hint: "Website Developer",
+                                                icon: Icons.language_rounded,
                                                 inputType: TextInputType.url,
                                               )),
                                           Container(
@@ -113,16 +145,21 @@ class LoginPage extends StatelessWidget {
                                                 inputType:
                                                     TextInputType.emailAddress,
                                               )),
-                                          Container(
-                                              // decoration: BoxDecoration(color: Colors.green),
-                                              margin: EdgeInsets.only(top: 8),
-                                              child: MyTextInput(
-                                                  controller:
-                                                      controllerPassword,
-                                                  hint: "Password",
-                                                  icon: Icons.lock_rounded,
-                                                  inputType: TextInputType.text,
-                                                  obsecure: true)),
+                                          Visibility(
+                                              visible: (page == PAGE_LOGIN ||
+                                                  page == PAGE_REGISTER),
+                                              child: Container(
+                                                  // decoration: BoxDecoration(color: Colors.green),
+                                                  margin:
+                                                      EdgeInsets.only(top: 8),
+                                                  child: MyTextInput(
+                                                      controller:
+                                                          controllerPassword,
+                                                      hint: "Password",
+                                                      icon: Icons.lock_rounded,
+                                                      inputType:
+                                                          TextInputType.text,
+                                                      obsecure: true))),
                                           Container(
                                               margin: EdgeInsets.only(
                                                   top: kBaseMargin),
@@ -130,15 +167,30 @@ class LoginPage extends StatelessWidget {
                                                   disabled: (state
                                                       is PageLoadingState),
                                                   onPress: () {
-                                                    BlocProvider.of<LoginCubit>(
-                                                            mainContext)
-                                                        .login(
-                                                            controllerUsername
-                                                                .text,
-                                                            controllerPassword
-                                                                .text);
+                                                    final cubit = BlocProvider
+                                                        .of<LoginCubit>(
+                                                            mainContext);
+                                                    if (page == PAGE_LOGIN) {
+                                                      cubit.login(
+                                                          controllerUsername
+                                                              .text,
+                                                          controllerPassword
+                                                              .text);
+                                                    } else if (page ==
+                                                        PAGE_REGISTER) {
+                                                      cubit.register(
+                                                          controllerUsername
+                                                              .text,
+                                                          controllerPassword
+                                                              .text);
+                                                    } else if (page ==
+                                                        PAGE_FORGOT) {
+                                                      cubit.forgot(
+                                                          controllerUsername
+                                                              .text);
+                                                    }
                                                   },
-                                                  text: "Login")),
+                                                  text: labelButton)),
                                           Container(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 36),
@@ -149,8 +201,44 @@ class LoginPage extends StatelessWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text("Akun Baru"),
-                                                  Text("Lupa Password")
+                                                  Visibility(
+                                                      visible:
+                                                          (page == PAGE_LOGIN),
+                                                      child: GestureDetector(
+                                                        child:
+                                                            Text("Akun Baru"),
+                                                        onTap: () {
+                                                          setState(() {
+                                                            page =
+                                                                PAGE_REGISTER;
+                                                          });
+                                                        },
+                                                      )),
+                                                  Visibility(
+                                                      visible:
+                                                          (page == PAGE_LOGIN),
+                                                      child: GestureDetector(
+                                                        child: Text(
+                                                            "Lupa Password"),
+                                                        onTap: () {
+                                                          setState(() {
+                                                            page = PAGE_FORGOT;
+                                                          });
+                                                        },
+                                                      )),
+                                                  Visibility(
+                                                      visible: (page ==
+                                                              PAGE_REGISTER ||
+                                                          page == PAGE_FORGOT),
+                                                      child: GestureDetector(
+                                                        child: Text(
+                                                            "Kembali ke Login"),
+                                                        onTap: () {
+                                                          setState(() {
+                                                            page = PAGE_LOGIN;
+                                                          });
+                                                        },
+                                                      )),
                                                 ],
                                               )),
                                           Container(

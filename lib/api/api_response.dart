@@ -94,7 +94,7 @@ class ForgotResponse extends ApiResponse {
   factory ForgotResponse.fromJson(Map<String, dynamic> json) {
     var status = json['status'];
     String mesage = "Tidak terhubung server";
-    if (status && json['data'] != null) {
+    if (json['data'] != null) {
       mesage = json['data'];
     }
     return ForgotResponse(status, [], mesage);
@@ -107,7 +107,7 @@ class RegisterResponse extends ApiResponse {
   factory RegisterResponse.fromJson(Map<String, dynamic> json) {
     var status = json['status'];
     String mesage = "Tidak terhubung server";
-    if (status && json['data'] != null) {
+    if (json['data'] != null) {
       mesage = json['data'];
     }
     return RegisterResponse(status, [], mesage);

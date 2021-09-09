@@ -78,11 +78,7 @@ class _HomePage extends State<HomePage> {
         },
         builder: (context, state) {
           String tenantName = app.user!.tenantName!;
-          String appName = label_app;
-          if (user != null) {
-            tenantName = user!.tenantName!;
-            appName = user!.appName!;
-          }
+          String appName = app.user!.appName!;
           return Scaffold(
             body: Stack(
               children: <Widget>[
@@ -136,8 +132,8 @@ class _HomePage extends State<HomePage> {
                                       width: 120,
                                       child: ClipOval(
                                           child: Image(
-                                        image: NetworkImage(
-                                            "https://i.pravatar.cc/120"),
+                                        image:
+                                            NetworkImage(app.user!.iconImage!),
                                       )),
                                     ),
                                   )),

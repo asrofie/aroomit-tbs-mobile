@@ -165,7 +165,7 @@ const sampleLoginPost = {
       "TenantEmail": "SEWA1@GMAIL.COM",
       "TenantPhone": "0123",
       "DeviceID": "345345325532",
-      "IconImage": "tbs.aroomit.com\/asset\/imgapartment.png",
+      "IconImage": "https://tbs.aroomit.com/asset/imgapartment.png",
       "AppName": "SUPER BILLING"
     }
   ]

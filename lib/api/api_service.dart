@@ -89,7 +89,7 @@ class ApiService extends BaseApi {
     Dio dio = this.getClient();
     var formData = FormData.fromMap(
         {"userEmail": email, "userPassword": password, "token": token});
-    Response response = await dio.post("/api/v1/master/frgtp", data: formData);
+    Response response = await dio.post("/api/v1/master/usr", data: formData);
     if (response.statusCode == 200) {
       return RegisterResponse.fromJson(response.data);
     }

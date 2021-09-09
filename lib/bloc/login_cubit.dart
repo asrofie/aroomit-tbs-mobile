@@ -28,7 +28,7 @@ class LoginCubit extends Cubit<AppState> {
     } else {
       emit(PageLoadingState());
       ApiService api = ApiService();
-      var response = await api.postLogin(email, password);
+      var response = await api.postLogin(email, password, "xx123");
       if (response.status!) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         UserModel user = response.data![0];
@@ -38,6 +38,44 @@ class LoginCubit extends Cubit<AppState> {
       } else {
         emit(FailureLoginState(response.message!, this.attempt!));
       }
+    }
+  }
+
+  void register(String email, String password) async {
+    if (this.attempt == null) {
+      this.attempt = 1;
+    } else {
+      this.attempt = this.attempt! + 1;
+    }
+    if (!validator.checkMinLength(email, 3) ||
+        !validator.checkMinLength(password, 3)) {
+      emit(FailureLoginState(
+          'Email/Password minimal 3 karakter', this.attempt!));
+    } else if (!validator.checkEmail(email)) {
+      emit(FailureLoginState('Invalid email format', this.attempt!));
+    } else {
+      emit(PageLoadingState());
+      ApiService api = ApiService();
+      var response = await api.postRegister(email, password, "xx123");
+      emit(SuccessApiState(response, this.attempt!));
+    }
+  }
+
+  void forgot(String email) async {
+    if (this.attempt == null) {
+      this.attempt = 1;
+    } else {
+      this.attempt = this.attempt! + 1;
+    }
+    if (!validator.checkMinLength(email, 3)) {
+      emit(FailureLoginState('Email minimal 3 karakter', this.attempt!));
+    } else if (!validator.checkEmail(email)) {
+      emit(FailureLoginState('Invalid email format', this.attempt!));
+    } else {
+      emit(PageLoadingState());
+      ApiService api = ApiService();
+      var response = await api.postForgot(email);
+      emit(SuccessApiState(response, this.attempt!));
     }
   }
 }

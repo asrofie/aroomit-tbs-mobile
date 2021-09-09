@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tbs_app/api/api_service.dart';
-import 'package:tbs_app/api/auth_api.dart';
 
 void main() {
   test('Api Login Test', () async {
