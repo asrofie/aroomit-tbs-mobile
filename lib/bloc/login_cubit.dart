@@ -10,17 +10,7 @@ import 'dart:convert';
 class LoginCubit extends Cubit<AppState> {
   int? attempt;
   LoginCubit() : super(PageInitState()) {
-    this.attempt == 1;
-  }
-
-  void loginCheck() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? user = prefs.getString("tbs_user");
-    if (user != null) {
-      emit(AlreadyLoginState());
-    } else {
-      emit(NeedLoginState());
-    }
+    this.attempt = 0;
   }
 
   void login(String email, String password) async {

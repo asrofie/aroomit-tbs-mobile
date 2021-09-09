@@ -35,3 +35,7 @@ class FailureLoadState extends AppState {
     return 'FailureLoginState{errorMessage: $errorMessage}';
   }
 }
+
+class AlreadyLoginState extends AppState {}
+
+class NeedLoginState extends AppState {}

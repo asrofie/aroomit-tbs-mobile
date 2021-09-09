@@ -32,6 +32,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext mainContext) {
+    AppCubit app = BlocProvider.of<AppCubit>(mainContext);
     return BlocConsumer<AppCubit, AppState>(
         bloc: BlocProvider.of<AppCubit>(mainContext),
         builder: (context, state) {

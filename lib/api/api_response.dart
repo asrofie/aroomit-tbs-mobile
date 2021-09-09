@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/news_model.dart';
 import 'package:tbs_app/model/tagihan_model.dart';
@@ -50,7 +47,7 @@ class ListTagihanResponse extends ApiResponse {
     List<TagihanModel> data = [];
     if (json['data'] is String) {
       message = json['data'];
-    } else if (json['data'] != null && json['data'] is Array) {
+    } else if (json['data'] != null) {
       json['data'].forEach((v) {
         data.add(TagihanModel.fromJson(v));
       });

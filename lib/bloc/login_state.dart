@@ -23,7 +23,3 @@ class SuccessLoginState extends AppState {
   @override
   List<Object> get props => [userModel!];
 }
-
-class AlreadyLoginState extends AppState {}
-
-class NeedLoginState extends AppState {}

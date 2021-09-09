@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tbs_app/api/api_service.dart';
 import 'package:tbs_app/bloc/property_cubit.dart';
 import 'package:tbs_app/model/user_model.dart';
-import 'package:tbs_app/validation.dart' as validator;
 import 'package:tbs_app/bloc/tagihan_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +37,17 @@ class AppCubit extends Cubit<AppState> {
     } else if (route == "tagihan") {
       TagihanCubit cubit = BlocProvider.of<TagihanCubit>(context);
       cubit.initPage();
+    }
+  }
+
+  void loginCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString("tbs_user");
+    if (user != null) {
+      this.loggedIn(UserModel.fromJson(json.decode(user)));
+      emit(AlreadyLoginState());
+    } else {
+      emit(NeedLoginState());
     }
   }
 }
