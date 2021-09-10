@@ -39,3 +39,11 @@ class FailureLoadState extends AppState {
 class AlreadyLoginState extends AppState {}
 
 class NeedLoginState extends AppState {}
+
+class FoundUrlState extends AppState {
+  String url;
+  FoundUrlState(this.url);
+
+  @override
+  List<Object> get props => [url];
+}

@@ -41,7 +41,6 @@ class MyButton extends StatelessWidget {
       elevation: 5,
       color: (disabled ? Colors.grey : Color(kPrimaryColor)),
       height: height,
-      minWidth: width,
     );
   }
 }
