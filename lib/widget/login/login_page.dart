@@ -189,6 +189,25 @@ class _LoginPage extends State<LoginPage> {
                                                     disabled: (state
                                                         is PageLoadingState),
                                                     onPress: () {
+                                                      final validUrl =
+                                                          BlocProvider.of<
+                                                                      AppCubit>(
+                                                                  mainContext)
+                                                              .changeUrl(
+                                                                  controllerUrl
+                                                                      .text);
+                                                      if (!validUrl) {
+                                                        ScaffoldMessenger.of(
+                                                                mainContext)
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          content: Text(
+                                                              "Invalid URL"),
+                                                          duration: Duration(
+                                                              seconds: 3),
+                                                        ));
+                                                        return;
+                                                      }
                                                       final cubit = BlocProvider
                                                           .of<LoginCubit>(
                                                               mainContext);

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tbs_app/bloc/property_cubit.dart';
+import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/user_model.dart';
 import 'package:tbs_app/bloc/tagihan_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
@@ -32,13 +33,14 @@ class AppCubit extends Cubit<AppState> {
     this.user = user;
     if (url != null) {
       this.saveUrl(url);
+      kServerUrl = url;
     }
   }
 
   void changePage(context, route) {
     if (route == "property") {
       PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
-      propertyCubit.fetchData(user!);
+      propertyCubit.fetchData(user);
     } else if (route == "tagihan") {
       TagihanCubit cubit = BlocProvider.of<TagihanCubit>(context);
       cubit.initPage();
@@ -60,6 +62,7 @@ class AppCubit extends Cubit<AppState> {
   void urlCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     this.url = prefs.getString("tbs_url");
+    kServerUrl = this.url!;
     if (url != null) {
       emit(FoundUrlState(url!));
     }
@@ -68,5 +71,13 @@ class AppCubit extends Cubit<AppState> {
   void saveUrl(String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("tbs_url", url);
+  }
+
+  bool changeUrl(String url) {
+    if (!Uri.parse(url).isAbsolute) {
+      return false;
+    }
+    kServerUrl = url;
+    return true;
   }
 }
