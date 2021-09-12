@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tbs_app/model/user_model.dart';
 
@@ -46,4 +47,14 @@ class FoundUrlState extends AppState {
 
   @override
   List<Object> get props => [url];
+}
+
+class NoInternetState extends AppState {}
+
+Future<bool> checkInternet() async {
+  final Connectivity _connectivity = Connectivity();
+  ConnectivityResult connectivityResult =
+      await _connectivity.checkConnectivity();
+  return (connectivityResult == ConnectivityResult.mobile ||
+      connectivityResult == ConnectivityResult.wifi);
 }

@@ -14,6 +14,10 @@ class LoginCubit extends Cubit<AppState> {
   }
 
   void login(String email, String password) async {
+    if (!(await checkInternet())) {
+      emit(NoInternetState());
+      return;
+    }
     if (this.attempt == null) {
       this.attempt = 1;
     } else {
@@ -42,6 +46,10 @@ class LoginCubit extends Cubit<AppState> {
   }
 
   void register(String email, String password) async {
+    if (!(await checkInternet())) {
+      emit(NoInternetState());
+      return;
+    }
     if (this.attempt == null) {
       this.attempt = 1;
     } else {
@@ -62,6 +70,10 @@ class LoginCubit extends Cubit<AppState> {
   }
 
   void forgot(String email) async {
+    if (!(await checkInternet())) {
+      emit(NoInternetState());
+      return;
+    }
     if (this.attempt == null) {
       this.attempt = 1;
     } else {
