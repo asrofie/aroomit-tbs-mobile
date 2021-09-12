@@ -3,6 +3,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:tbs_app/bloc/property_cubit.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/routes.dart' as route;
+import 'package:tbs_app/widget/dashbboard/account/account_page.dart';
 import 'package:tbs_app/widget/dashbboard/home_page.dart';
 import 'package:tbs_app/widget/dashbboard/property/property_page.dart';
 import 'package:tbs_app/widget/dashbboard/news/news_page.dart';
@@ -27,7 +28,7 @@ class MainPageState extends State<MainPage> {
     HomePage(),
     PropertyPage(),
     NewsPage(),
-    Container(child: Text('Account Page')),
+    AccountPage(),
   ];
 
   @override
