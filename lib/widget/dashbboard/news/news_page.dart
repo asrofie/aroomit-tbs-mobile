@@ -1,36 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:tbs_app/api/mock_response.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:tbs_app/bloc/app_cubit.dart';
+import 'package:tbs_app/bloc/app_state.dart';
+import 'package:tbs_app/bloc/news_cubit.dart';
+import 'package:tbs_app/bloc/news_state.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/news_model.dart';
 import 'package:tbs_app/routes.dart' as route;
+import 'package:tbs_app/widget/single_content_page.dart';
 
-class NewsPage extends StatelessWidget {
-  List<NewsModel> dataModel = [];
+class NewsPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _NewsPage();
+  }
+}
 
-  NewsPage() {
-    dataModel = sampleListNews();
+class _NewsPage extends State<NewsPage> {
+  late NewsCubit cubit;
+  late AppCubit appCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((duration) {
+      cubit.fetchData(appCubit.user);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text(
-          "News",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xFF6dcff6),
-        elevation: 0.0,
-      ),
-      body: ListView.builder(
-        itemCount: (dataModel.length),
-        itemBuilder: (context, index) {
-          return listTile(context, dataModel[index]);
+    appCubit = BlocProvider.of<AppCubit>(context);
+    cubit = BlocProvider.of<NewsCubit>(context);
+    return BlocConsumer<NewsCubit, AppState>(
+        bloc: BlocProvider.of<NewsCubit>(context),
+        builder: (ctx, state) {
+          if (state is SuccessLoadNewsState) {
+            if (state.data.isEmpty) {
+              return NodataPage();
+            }
+            return page(context, dataList(context, state.data));
+          }
+          if (state is FailureLoadNewsState) {
+            return page(context, ErrorPage());
+          }
+          return page(context, shimmerList(context));
         },
-      ),
+        listener: (c, s) {});
+  }
+
+  Widget shimmerList(context) {
+    Size size = MediaQuery.of(context).size;
+    final height = size.height * 0.3;
+    final width = size.width;
+    return ListView.builder(
+      itemCount: 1,
+      itemBuilder: (context, index) {
+        return Container(
+            margin: EdgeInsets.symmetric(horizontal: kBaseMargin),
+            child: Text("Loading..."));
+      },
     );
+  }
+
+  Widget dataList(context, List<NewsModel> data) {
+    return ListView.builder(
+      itemCount: (data.length),
+      itemBuilder: (context, index) {
+        return listTile(context, data[index]);
+      },
+    );
+  }
+
+  Widget page(context, Widget content) {
+    return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text(
+            "News",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF6dcff6),
+          elevation: 0.0,
+        ),
+        body: Container(
+            margin: EdgeInsets.only(top: kBaseMargin), child: content));
   }
 
   listTile(context, NewsModel model) {
@@ -76,7 +133,7 @@ class NewsPage extends StatelessWidget {
                             child: Container(
                                 alignment: Alignment.topCenter,
                                 decoration: BoxDecoration(
-                                    color: Colors.grey.withAlpha(50)),
+                                    color: Colors.white.withOpacity(0.8)),
                                 child: Padding(
                                     padding: EdgeInsets.all(16),
                                     child: Row(

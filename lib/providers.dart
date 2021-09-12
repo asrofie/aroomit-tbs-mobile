@@ -4,6 +4,7 @@ import 'package:tbs_app/bloc/app_cubit.dart';
 import 'package:tbs_app/bloc/property_cubit.dart';
 import 'package:tbs_app/bloc/tagihan_cubit.dart';
 import 'package:tbs_app/bloc/login_cubit.dart';
+import 'package:tbs_app/bloc/news_cubit.dart';
 
 List<BlocProvider> blocProviders = [
   BlocProvider<AppCubit>(create: (_) => AppCubit()),
@@ -11,4 +12,5 @@ List<BlocProvider> blocProviders = [
   BlocProvider<PropertyCubit>(create: (_) => PropertyCubit()),
   BlocProvider<TagihanCubit>(create: (_) => TagihanCubit()),
   BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
+  BlocProvider<NewsCubit>(create: (_) => NewsCubit()),
 ];
