@@ -13,11 +13,18 @@ class PropertyCubit extends Cubit<AppState> {
     attempt++;
     emit(PageLoadingState());
     ApiService api = ApiService();
-    var response = await api.findByTenant(user!.idTenantNumber!);
-    if (response.status!) {
-      emit(SuccessLoadPropertyState(response.data));
-    } else {
-      emit(FailureLoadPropertyState(response.message!, this.attempt));
+    try {
+      var response = await api.findByTenant(user!.idTenantNumber!);
+      if (response.status!) {
+        emit(SuccessLoadPropertyState(response.data));
+      } else {
+        emit(FailureLoadPropertyState(response.message!, this.attempt));
+      }
+    } catch (error) {
+      if (!(await checkInternet())) {
+        emit(FailureLoadPropertyState("No Internet connection", this.attempt));
+        return;
+      }
     }
   }
 

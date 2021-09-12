@@ -73,6 +73,11 @@ class _PropertyPage extends State<PropertyPage> {
           AppCubit app = BlocProvider.of<AppCubit>(c1);
           if (state is PropertyInitPageState) {
             BlocProvider.of<PropertyCubit>(c1).fetchData(app.user!);
+          } else if (state is NoInternetState) {
+            ScaffoldMessenger.of(c1).showSnackBar(SnackBar(
+              content: Text("No internet connection"),
+              duration: Duration(seconds: 3),
+            ));
           }
         }));
   }
