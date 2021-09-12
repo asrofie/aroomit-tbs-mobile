@@ -17,8 +17,8 @@ const kRoutePayment = "/payment";
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case kRouteSetup:
-      return MaterialPageRoute(builder: (context) => SetupPage());
+    // case kRouteSetup:
+    //   return MaterialPageRoute(builder: (context) => SetupPage());
     case kRouteLogin:
       return MaterialPageRoute(builder: (context) => LoginPage());
     case kRouteMain:
