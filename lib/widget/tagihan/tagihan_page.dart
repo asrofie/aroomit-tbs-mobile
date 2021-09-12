@@ -10,6 +10,7 @@ import 'package:tbs_app/bloc/tagihan_cubit.dart';
 import 'package:tbs_app/bloc/tagihan_state.dart';
 import 'package:tbs_app/model/user_model.dart';
 import 'package:tbs_app/routes.dart' as route;
+import 'package:tbs_app/widget/single_content_page.dart';
 
 class TagihanPage extends StatefulWidget {
   PropertyModel propertyModel;
@@ -78,16 +79,17 @@ class _TagihanPage extends State<TagihanPage> {
               final width = size.width * 0.8;
               if (state is PageLoadingState) {
                 return ListView.builder(
-                    itemCount: kTotalDummy,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
-                      return SimpleShimmer();
+                      return Container(
+                          margin: EdgeInsets.all(kBaseMargin),
+                          child: Text("Loading..."));
                     });
               } else if (state is SuccessLoadTagihanState) {
                 if (state.data.length == 0) {
                   return Container(
-                      child: Center(
-                    child: Text("Tidak ada data"),
-                  ));
+                      margin: EdgeInsets.only(top: kBaseMargin),
+                      child: NodataPage());
                 }
                 return Stack(children: <Widget>[
                   cardProperty(),
@@ -102,9 +104,8 @@ class _TagihanPage extends State<TagihanPage> {
                 ]);
               }
               return Container(
-                  child: Center(
-                child: Text("Tidak terhubung dengan server"),
-              ));
+                  margin: EdgeInsets.only(top: kBaseMargin),
+                  child: ErrorPage());
             }),
       )
     ]));
