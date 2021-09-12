@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tbs_app/bloc/app_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
-import 'package:tbs_app/component/simple_shimmer.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/model/tagihan_model.dart';
@@ -11,6 +10,7 @@ import 'package:tbs_app/bloc/tagihan_state.dart';
 import 'package:tbs_app/model/user_model.dart';
 import 'package:tbs_app/routes.dart' as route;
 import 'package:tbs_app/widget/single_content_page.dart';
+import 'package:intl/intl.dart';
 
 class TagihanPage extends StatefulWidget {
   PropertyModel propertyModel;
@@ -39,10 +39,11 @@ class _TagihanPage extends State<TagihanPage> {
 
   @override
   Widget build(BuildContext c1) {
+    final size = MediaQuery.of(c1).size;
     return Scaffold(
         body: Stack(children: <Widget>[
       SizedBox.fromSize(
-          size: Size(double.infinity, 100),
+          size: Size(size.width, 100),
           child: Container(
             decoration: BoxDecoration(color: Color(0xFF6dcff6)),
           )),
@@ -161,6 +162,8 @@ class _TagihanPage extends State<TagihanPage> {
   }
 
   listTile(context, TagihanModel model) {
+    var formatter = NumberFormat('#,##,000', 'id_ID');
+    final widthLeft = MediaQuery.of(context).size.width * 40 / 100;
     return GestureDetector(
         onTap: () => Navigator.of(context)
             .pushNamed(route.kRoutePayment, arguments: model.detailBillCode),
@@ -171,16 +174,17 @@ class _TagihanPage extends State<TagihanPage> {
               borderRadius: BorderRadius.circular(kRadius),
             ),
             elevation: kElevation,
-            child: SizedBox.fromSize(
-              size: Size(double.infinity, 80),
+            child: Container(
+              height: 80,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Row(children: <Widget>[
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: SizedBox.fromSize(
-                            size: Size(50, 50),
+                          child: Container(
+                            width: 50,
+                            height: 50,
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.grey,
@@ -193,13 +197,13 @@ class _TagihanPage extends State<TagihanPage> {
                             ),
                           )),
                       SizedBox.fromSize(
-                          size: Size(100, 50),
+                          size: Size(widthLeft, 50),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  model.qty!,
+                                  "Rp " + (model.qty!).toString(),
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
@@ -210,13 +214,14 @@ class _TagihanPage extends State<TagihanPage> {
                     ]),
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: SizedBox.fromSize(
-                            size: Size(200, 50),
+                        child: Container(
+                            height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 Text(
-                                  model.grandTotal!,
+                                  formatter.format(
+                                      double.tryParse(model.grandTotal!)),
                                   textAlign: TextAlign.right,
                                 )
                               ],
