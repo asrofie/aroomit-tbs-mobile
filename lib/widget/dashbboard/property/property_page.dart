@@ -9,17 +9,28 @@ import 'package:tbs_app/component/simple_shimmer.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/routes.dart' as route;
-import 'package:tbs_app/widget/tagihan/tagihan_page.dart';
 
-class PropertyPage extends StatelessWidget {
-  List<PropertyModel> dataModel = [];
+class PropertyPage extends StatefulWidget {
+  @override
+  _PropertyPage createState() => _PropertyPage();
+}
+
+class _PropertyPage extends State<PropertyPage> {
   Size iconSize = Size(70, 80);
-
-  PropertyPage() {
-    // dataModel = mockListPropertyOnly();
+  late PropertyCubit cubit;
+  late AppCubit appCubit;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((duration) {
+      cubit.fetchData(appCubit.user);
+    });
   }
+
   @override
   Widget build(BuildContext c1) {
+    cubit = BlocProvider.of<PropertyCubit>(c1);
+    appCubit = BlocProvider.of<AppCubit>(c1);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -37,7 +48,7 @@ class PropertyPage extends StatelessWidget {
           final width = size.width * 0.8;
           if (state is PageLoadingState) {
             return ListView.builder(
-                itemCount: kTotalDummy,
+                itemCount: 1,
                 itemBuilder: (context, index) {
                   return SimpleShimmer();
                 });

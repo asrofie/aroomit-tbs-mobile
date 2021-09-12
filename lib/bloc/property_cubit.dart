@@ -9,11 +9,11 @@ class PropertyCubit extends Cubit<AppState> {
   PropertyCubit() : super(PageInitState());
   UserModel? user;
 
-  void fetchData(UserModel user) async {
+  void fetchData(UserModel? user) async {
     attempt++;
     emit(PageLoadingState());
     ApiService api = ApiService();
-    var response = await api.findByTenant(user.idTenantNumber!);
+    var response = await api.findByTenant(user!.idTenantNumber!);
     if (response.status!) {
       emit(SuccessLoadPropertyState(response.data));
     } else {

@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 class ApiService extends BaseApi {
   Future<ListPropertyResponse> findByTenant(String idTenant) async {
     if (this.isWeb()) {
-      return await mockListProperty();
+      return mockListProperty();
     }
     Dio dio = this.getClient();
     Response response = await dio.get('/api/v1/master/listtenant',
