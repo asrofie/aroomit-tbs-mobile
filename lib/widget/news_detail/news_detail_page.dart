@@ -1,95 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:tbs_app/api/mock_response.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:html/parser.dart';
+import 'package:tbs_app/bloc/app_cubit.dart';
+import 'package:tbs_app/bloc/app_state.dart';
+import 'package:tbs_app/bloc/news_cubit.dart';
+import 'package:tbs_app/bloc/news_state.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/news_model.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:tbs_app/widget/single_content_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class NewsDetailPage extends StatelessWidget {
-  NewsModel? dataModel = null;
+class NewsDetailPage extends StatefulWidget {
   String? newsId;
 
-  NewsDetailPage({Key? key, this.newsId}) : super(key: key) {
-    dataModel = sampleNewsDetail();
+  NewsDetailPage({Key? key, this.newsId}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _NewsDetailPage(this.newsId);
+  }
+}
+
+class _NewsDetailPage extends State<NewsDetailPage> {
+  String? newsId;
+  late AppCubit app;
+  late NewsCubit cubit;
+  _NewsDetailPage(this.newsId);
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      cubit.fetchDetail(app.user!, newsId!);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    app = BlocProvider.of<AppCubit>(context);
+    cubit = BlocProvider.of<NewsCubit>(context);
+    return BlocConsumer<NewsCubit, AppState>(
+        bloc: cubit,
+        builder: (c, state) {
+          if (state is PageLoadingState) {
+            return page(context, Text("Loading..."));
+          }
+          if (state is SuccessLoadNewsDetailState) {
+            return page(context, tile(state.data));
+          }
+          return page(context, ErrorPage());
+        },
+        listener: (c, s) {});
+  }
+
+  Widget page(context, Widget content) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SizedBox.fromSize(
-              size: Size(double.infinity, 100),
-              child: Container(
-                decoration: BoxDecoration(color: Color(0xFF6dcff6)),
-              )),
-          Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(dataModel!.newsTitle!),
-              backgroundColor: Colors.white,
-              elevation: 0.0,
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back_rounded, color: Colors.black)),
-            ),
-            body: listTile(dataModel!),
-          )
-        ],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Container(),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_rounded, color: Colors.black)),
       ),
+      body: Container(margin: EdgeInsets.all(kBaseMargin), child: content),
     );
   }
 
-  cardProperty(NewsModel model) {
-    return Stack(children: <Widget>[
-      SizedBox.fromSize(
-        size: Size(double.infinity, 60),
-        child:
-            Container(decoration: BoxDecoration(color: Color(kPrimaryColor))),
-      ),
-      SizedBox.fromSize(
-          size: Size(double.infinity, 100),
-          child: Card(
-              margin: EdgeInsets.symmetric(
-                  horizontal: kBaseMargin, vertical: (kBaseMargin * 0.5)),
-              elevation: kElevation,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(kRadius)),
-              child: Padding(
-                padding: EdgeInsets.all(kBaseMargin),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text("Apartement - A",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
-                              Text("Status")
-                            ])),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Floor 1 / 414"),
-                        Text("Sewa"),
-                        Text("201m2")
-                      ],
-                    )
-                  ],
-                ),
-              )))
-    ]);
-  }
-
-  listTile(NewsModel model) {
+  tile(NewsModel model) {
     Widget header = Image(
       image: NetworkImage(model.newsBanner!),
       errorBuilder: (c, o, s) =>
@@ -110,15 +94,21 @@ class NewsDetailPage extends StatelessWidget {
         progressIndicatorColor: Color(kPrimaryColor),
       );
     }
+    String fullHtml = "<!DOCTYPE html><html><head><title>" +
+        model.newsTitle! +
+        "</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head><body>";
+    fullHtml += parse(model.newsContent!).toString();
+    fullHtml += "</body></html>";
     return SingleChildScrollView(
-        child: Padding(
-            padding: EdgeInsets.all(kBaseMargin),
-            child: Column(children: [
-              header,
-              Padding(
-                padding: EdgeInsets.only(top: kBaseMargin),
-                child: Html(data: model.newsContent!),
-              )
-            ])));
+        child: InAppWebView(
+      initialData: InAppWebViewInitialData(data: fullHtml),
+      initialOptions: InAppWebViewGroupOptions(),
+      onLoadStop: (InAppWebViewController controller, url) async {},
+      onProgressChanged: (InAppWebViewController controller, int progress) {},
+      onWebViewCreated: (InAppWebViewController controller) {},
+      onConsoleMessage: (controller, consoleMessage) {
+        print(consoleMessage);
+      },
+    ));
   }
 }

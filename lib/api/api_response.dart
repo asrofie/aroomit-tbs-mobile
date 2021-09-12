@@ -38,6 +38,24 @@ class ListNewsResponse extends ApiResponse {
   }
 }
 
+class NewsDetailResponse extends ApiResponse {
+  NewsDetailResponse(status, data, message)
+      : super(status: status, data: data, message: message);
+  factory NewsDetailResponse.fromJson(Map<String, dynamic> json) {
+    var status = json['status'];
+    NewsModel? data;
+    String? message;
+    if (json['data'] != null) {
+      if (json['data'] is String) {
+        message = json['data'];
+      } else {
+        data = NewsModel.fromJson(json['data'][0]);
+      }
+    }
+    return NewsDetailResponse(status, data, message);
+  }
+}
+
 class ListTagihanResponse extends ApiResponse {
   ListTagihanResponse(status, data, message)
       : super(status: status, data: data, message: message);
@@ -53,20 +71,6 @@ class ListTagihanResponse extends ApiResponse {
       });
     }
     return ListTagihanResponse(status, data, message);
-  }
-}
-
-class NewsDetailResponse extends ApiResponse {
-  NewsDetailResponse(status, data) : super(status: status, data: data);
-  factory NewsDetailResponse.fromJson(Map<String, dynamic> json) {
-    var status = json['status'];
-    List<NewsModel> data = [];
-    if (json['data'] != null) {
-      json['data'].forEach((v) {
-        data.add(NewsModel.fromJson(v));
-      });
-    }
-    return NewsDetailResponse(status, data);
   }
 }
 

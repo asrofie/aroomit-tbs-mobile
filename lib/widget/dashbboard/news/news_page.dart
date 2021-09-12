@@ -90,6 +90,12 @@ class _NewsPage extends State<NewsPage> {
             margin: EdgeInsets.only(top: kBaseMargin), child: content));
   }
 
+  openNewsDetail(String newsId) async {
+    final result = await Navigator.pushNamed(context, route.kRouteNewsDetail,
+        arguments: newsId);
+    cubit.fetchData(appCubit.user);
+  }
+
   listTile(context, NewsModel model) {
     String imageUrl = model.newsBanner!;
     String contentTipe = "Article";
@@ -98,8 +104,9 @@ class _NewsPage extends State<NewsPage> {
       contentTipe = "Video";
     }
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, route.kRouteNewsDetail,
-            arguments: model.newsId!),
+        onTap: () {
+          openNewsDetail(model.newsId!);
+        },
         child: Card(
             margin: EdgeInsets.symmetric(
                 horizontal: kBaseMargin, vertical: (kBaseMargin * 0.5)),

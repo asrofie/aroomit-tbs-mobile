@@ -7,8 +7,6 @@ import 'package:tbs_app/bloc/app_state.dart';
 class NewsCubit extends Cubit<AppState> {
   int attempt = 0;
   NewsCubit() : super(PageInitState());
-  UserModel? user;
-
   void fetchData(UserModel? user) async {
     attempt++;
     emit(PageLoadingState());
@@ -16,6 +14,18 @@ class NewsCubit extends Cubit<AppState> {
     var response = await api.findNews(user!.companyCode!);
     if (response.status!) {
       emit(SuccessLoadNewsState(response.data));
+    } else {
+      emit(FailureLoadNewsState(response.message!, this.attempt));
+    }
+  }
+
+  void fetchDetail(UserModel? user, String newsId) async {
+    attempt++;
+    emit(PageLoadingState());
+    ApiService api = ApiService();
+    var response = await api.findNewsDetail(user!.companyCode!, newsId);
+    if (response.status!) {
+      emit(SuccessLoadNewsDetailState(response.data));
     } else {
       emit(FailureLoadNewsState(response.message!, this.attempt));
     }

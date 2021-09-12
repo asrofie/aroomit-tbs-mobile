@@ -14,3 +14,8 @@ class FailureLoadNewsState extends FailureLoadState {
   FailureLoadNewsState(String errorMessage, int attempt)
       : super(errorMessage, attempt);
 }
+
+class SuccessLoadNewsDetailState extends AppState {
+  NewsModel data;
+  SuccessLoadNewsDetailState(this.data);
+}
