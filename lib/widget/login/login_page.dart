@@ -95,6 +95,11 @@ class _LoginPage extends State<LoginPage> {
                       page = PAGE_LOGIN;
                     });
                   }
+                } else if (state is NoInternetState) {
+                  ScaffoldMessenger.of(mainContext).showSnackBar(SnackBar(
+                    content: Text("No internet connection"),
+                    duration: Duration(seconds: 3),
+                  ));
                 }
               },
               builder: (ctx, state) {
