@@ -35,8 +35,9 @@ const propertyByTenant = {
   ]
 };
 
-ListPropertyResponse mockListProperty() {
-  return ListPropertyResponse.fromJson(propertyByTenant);
+Future<ListPropertyResponse> mockListProperty() async {
+  return Future.delayed(const Duration(seconds: 2),
+      () => ListPropertyResponse.fromJson(propertyByTenant));
 }
 
 List<PropertyModel> mockListPropertyOnly() {
@@ -118,8 +119,9 @@ List<TagihanModel> sampleListTagihan() {
   return (ListTagihanResponse.fromJson(listTagihanResponseJson)).data;
 }
 
-ListTagihanResponse mockListTagihan() {
-  return ListTagihanResponse.fromJson(listTagihanResponseJson);
+Future<ListTagihanResponse> mockListTagihan() async {
+  return Future.delayed(Duration(seconds: 2),
+      () => ListTagihanResponse.fromJson(listTagihanResponseJson));
 }
 
 List<NewsModel> sampleListNews() {

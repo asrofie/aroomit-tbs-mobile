@@ -9,6 +9,7 @@ import 'package:tbs_app/component/simple_shimmer.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/property_model.dart';
 import 'package:tbs_app/routes.dart' as route;
+import 'package:tbs_app/widget/single_content_page.dart';
 
 class PropertyPage extends StatefulWidget {
   @override
@@ -50,14 +51,15 @@ class _PropertyPage extends State<PropertyPage> {
             return ListView.builder(
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  return SimpleShimmer();
+                  return Container(
+                      margin: EdgeInsets.all(kBaseMargin),
+                      child: Text("Loading..."));
                 });
           } else if (state is SuccessLoadPropertyState) {
             if (state.data.length == 0) {
               return Container(
-                  child: Center(
-                child: Text("Tidak ada data"),
-              ));
+                  margin: EdgeInsets.only(top: kBaseMargin),
+                  child: NodataPage());
             }
             return ListView.builder(
                 itemCount: state.data.length,
@@ -66,9 +68,7 @@ class _PropertyPage extends State<PropertyPage> {
                 });
           }
           return Container(
-              child: Center(
-            child: Text("Tidak terhubung dengan server"),
-          ));
+              margin: EdgeInsets.only(top: kBaseMargin), child: ErrorPage());
         }, listener: (c2, state) {
           AppCubit app = BlocProvider.of<AppCubit>(c1);
           if (state is PropertyInitPageState) {
