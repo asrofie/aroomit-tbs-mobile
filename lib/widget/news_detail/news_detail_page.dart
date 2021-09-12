@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:html/parser.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html_unescape/html_unescape.dart';
 import 'package:tbs_app/bloc/app_cubit.dart';
 import 'package:tbs_app/bloc/app_state.dart';
 import 'package:tbs_app/bloc/news_cubit.dart';
 import 'package:tbs_app/bloc/news_state.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/model/news_model.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:tbs_app/widget/single_content_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -27,6 +26,7 @@ class _NewsDetailPage extends State<NewsDetailPage> {
   String? newsId;
   late AppCubit app;
   late NewsCubit cubit;
+  String title = "News Detail";
   _NewsDetailPage(this.newsId);
 
   @override
@@ -53,14 +53,21 @@ class _NewsDetailPage extends State<NewsDetailPage> {
           }
           return page(context, ErrorPage());
         },
-        listener: (c, s) {});
+        listener: (c, state) {
+          if (state is SuccessLoadNewsDetailState) {
+            setState(() {
+              title = state.data.newsTitle!;
+            });
+          }
+        });
   }
 
   Widget page(context, Widget content) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Container(),
+        title: Text(title),
         backgroundColor: Colors.white,
         elevation: 0.0,
         leading: IconButton(
@@ -77,7 +84,7 @@ class _NewsDetailPage extends State<NewsDetailPage> {
     Widget header = Image(
       image: NetworkImage(model.newsBanner!),
       errorBuilder: (c, o, s) =>
-          Image(image: AssetImage("images/image_placeholder.png")),
+          Image(image: AssetImage("assets/images/image_placeholder.png")),
     );
     if (model.videoFlag == "1") {
       header = YoutubePlayer(
@@ -97,18 +104,13 @@ class _NewsDetailPage extends State<NewsDetailPage> {
     String fullHtml = "<!DOCTYPE html><html><head><title>" +
         model.newsTitle! +
         "</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head><body>";
-    fullHtml += parse(model.newsContent!).toString();
+    fullHtml += model.newsContent!;
     fullHtml += "</body></html>";
+    var unescape = HtmlUnescape();
     return SingleChildScrollView(
-        child: InAppWebView(
-      initialData: InAppWebViewInitialData(data: fullHtml),
-      initialOptions: InAppWebViewGroupOptions(),
-      onLoadStop: (InAppWebViewController controller, url) async {},
-      onProgressChanged: (InAppWebViewController controller, int progress) {},
-      onWebViewCreated: (InAppWebViewController controller) {},
-      onConsoleMessage: (controller, consoleMessage) {
-        print(consoleMessage);
-      },
-    ));
+        child: Column(children: [
+      Padding(padding: EdgeInsets.only(bottom: 8), child: header),
+      Html(data: unescape.convert(fullHtml))
+    ]));
   }
 }

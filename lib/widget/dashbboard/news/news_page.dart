@@ -120,11 +120,12 @@ class _NewsPage extends State<NewsPage> {
                   children: <Widget>[
                     Positioned.fill(
                       child: FadeInImage(
-                        placeholder: AssetImage("images/image_placeholder.png"),
+                        placeholder:
+                            AssetImage("assets/images/image_placeholder.png"),
                         imageErrorBuilder: (c, o, s) {
                           return Image(
-                              image:
-                                  AssetImage("images/image_placeholder.png"));
+                              image: AssetImage(
+                                  "assets/images/image_placeholder.png"));
                         },
                         image: NetworkImage(imageUrl),
                         fit: BoxFit.cover,
