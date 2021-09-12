@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:tbs_app/bloc/property_cubit.dart';
+import 'package:flutter/services.dart';
 import 'package:tbs_app/config/constant.dart';
 import 'package:tbs_app/routes.dart' as route;
 import 'package:tbs_app/widget/dashbboard/account/account_page.dart';
@@ -31,6 +31,10 @@ class MainPageState extends State<MainPage> {
     AccountPage(),
   ];
 
+  onBackButton(context) async {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+
   @override
   Widget build(BuildContext mainContext) {
     AppCubit app = BlocProvider.of<AppCubit>(mainContext);
@@ -38,7 +42,9 @@ class MainPageState extends State<MainPage> {
         bloc: BlocProvider.of<AppCubit>(mainContext),
         builder: (context, state) {
           return Scaffold(
-            body: pages[_currentIndex],
+            body: WillPopScope(
+                child: pages[_currentIndex],
+                onWillPop: () => onBackButton(mainContext)),
             bottomNavigationBar: ConvexAppBar(
               style: TabStyle.reactCircle,
               activeColor: Color(kPrimaryColor),
