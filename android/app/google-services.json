@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1034048590364",
+    "project_id": "tbs-superbill",
+    "storage_bucket": "tbs-superbill.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034048590364:android:3c4856460cba6396ef45d9",
+        "android_client_info": {
+          "package_name": "com.aroomit.tbs_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034048590364-8ngfiotpfvu7hte81n8o5biv2k9894r1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAti4barvnMo6zLSCLrYMCn9DPGtuHWSN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034048590364-8ngfiotpfvu7hte81n8o5biv2k9894r1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
