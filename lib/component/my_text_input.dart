@@ -9,7 +9,8 @@ class MyTextInput extends StatelessWidget {
       required this.hint,
       this.inputType,
       this.inputAction,
-      this.obsecure = false})
+      this.obsecure = false,
+      this.suffix})
       : super(key: key);
 
   final IconData icon;
@@ -17,6 +18,7 @@ class MyTextInput extends StatelessWidget {
   final TextInputType? inputType;
   final TextInputAction? inputAction;
   final TextEditingController controller;
+  Widget? suffix;
   bool obsecure;
 
   @override
@@ -32,6 +34,7 @@ class MyTextInput extends StatelessWidget {
                 obscureText: this.obsecure,
                 onTap: () {},
                 decoration: InputDecoration(
+                    suffix: this.suffix,
                     contentPadding: EdgeInsets.only(right: 16, top: 12),
                     hintText: hint,
                     hintStyle: TextStyle(

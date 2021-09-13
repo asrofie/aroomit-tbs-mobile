@@ -33,9 +33,9 @@ class _LoginPage extends State<LoginPage> {
   late AppCubit appCubit;
   @override
   Widget build(BuildContext context) {
-    // controllerPassword.text = "1123465";
-    // controllerUsername.text = "SEWA1@GMAIL.COM";
-    // controllerUrl.text = kServerUrl;
+    controllerPassword.text = "123456";
+    controllerUsername.text = "asrofie@GMAIL.COM";
+    controllerUrl.text = kServerUrl;
     return buildLoginPage(context);
   }
 
@@ -103,8 +103,7 @@ class _LoginPage extends State<LoginPage> {
                 }
               },
               builder: (ctx, state) {
-                final heightForm =
-                    MediaQuery.of(mainContext).size.height * 0.57;
+                final heightForm = MediaQuery.of(mainContext).size.height * 0.7;
                 final widthForm = MediaQuery.of(mainContext).size.width * 0.5;
                 String labelButton = "Login";
                 if (page == PAGE_FORGOT) {
@@ -127,6 +126,15 @@ class _LoginPage extends State<LoginPage> {
                                     fit: BoxFit.fitHeight,
                                     alignment: Alignment.center))),
                         Center(
+                            child: Container(
+                                width: double.infinity,
+                                height: (heightForm),
+                                padding: EdgeInsets.all(8),
+                                child: Material(
+                                  elevation: kElevation,
+                                  color: Colors.white,
+                                ))),
+                        Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 54),
                               child: Column(
@@ -136,8 +144,6 @@ class _LoginPage extends State<LoginPage> {
                                       margin: EdgeInsets.symmetric(vertical: 4),
                                       child: Container(
                                         height: heightForm,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: kBaseMargin),
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
@@ -152,14 +158,22 @@ class _LoginPage extends State<LoginPage> {
                                               ),
                                             ),
                                             Container(
-                                                // decoration: BoxDecoration(color: Colors.green),
-                                                margin: EdgeInsets.only(top: 8),
-                                                child: MyTextInput(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8),
+                                              // decoration: BoxDecoration(color: Colors.green),
+                                              margin: EdgeInsets.only(top: 8),
+                                              child: MyTextInput(
                                                   controller: controllerUrl,
-                                                  hint: "Website Developer",
+                                                  hint:
+                                                      "https://website-developer.com",
                                                   icon: Icons.language_rounded,
                                                   inputType: TextInputType.url,
-                                                )),
+                                                  suffix: MaterialButton(
+                                                    onPressed: () {},
+                                                    child: Icon(Icons
+                                                        .qr_code_2_rounded),
+                                                  )),
+                                            ),
                                             Container(
                                                 // decoration: BoxDecoration(color: Colors.green),
                                                 margin: EdgeInsets.only(top: 8),
@@ -240,13 +254,11 @@ class _LoginPage extends State<LoginPage> {
                                             Container(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 36),
+                                                width: double.infinity,
                                                 margin: EdgeInsets.only(
-                                                    top: kBaseMargin,
+                                                    top: (kBaseMargin),
                                                     bottom: 0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                child: Column(
                                                   children: [
                                                     Visibility(
                                                         visible: (page ==
@@ -261,30 +273,30 @@ class _LoginPage extends State<LoginPage> {
                                                             });
                                                           },
                                                         )),
+                                                    Container(
+                                                      height: kBaseMargin,
+                                                    ),
                                                     Visibility(
-                                                        visible: (page ==
-                                                            PAGE_LOGIN),
+                                                        visible: true,
                                                         child: GestureDetector(
-                                                          child: Text(
-                                                              "Lupa Password"),
+                                                          child: Text((page ==
+                                                                      PAGE_REGISTER ||
+                                                                  page ==
+                                                                      PAGE_FORGOT)
+                                                              ? "Kembali Login"
+                                                              : "Lupa Password"),
                                                           onTap: () {
                                                             setState(() {
-                                                              page =
-                                                                  PAGE_FORGOT;
-                                                            });
-                                                          },
-                                                        )),
-                                                    Visibility(
-                                                        visible: (page ==
-                                                                PAGE_REGISTER ||
-                                                            page ==
-                                                                PAGE_FORGOT),
-                                                        child: GestureDetector(
-                                                          child: Text(
-                                                              "Kembali ke Login"),
-                                                          onTap: () {
-                                                            setState(() {
-                                                              page = PAGE_LOGIN;
+                                                              if ((page ==
+                                                                      PAGE_REGISTER ||
+                                                                  page ==
+                                                                      PAGE_FORGOT)) {
+                                                                page =
+                                                                    PAGE_LOGIN;
+                                                              } else {
+                                                                page =
+                                                                    PAGE_FORGOT;
+                                                              }
                                                             });
                                                           },
                                                         )),

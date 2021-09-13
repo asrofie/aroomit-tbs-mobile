@@ -31,8 +31,10 @@ class LoginCubit extends Cubit<AppState> {
       emit(FailureLoginState('Invalid email format', this.attempt!));
     } else {
       emit(PageLoadingState());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString("tbs_firebase");
       ApiService api = ApiService();
-      var response = await api.postLogin(email, password, "xx123");
+      var response = await api.postLogin(email, password, token!);
       if (response.status!) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         UserModel user = response.data![0];
@@ -64,7 +66,9 @@ class LoginCubit extends Cubit<AppState> {
     } else {
       emit(PageLoadingState());
       ApiService api = ApiService();
-      var response = await api.postRegister(email, password, "xx123");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString("tbs_firebase");
+      var response = await api.postRegister(email, password, token!);
       emit(SuccessApiState(response, this.attempt!));
     }
   }
