@@ -32,7 +32,7 @@ class MainPageState extends State<MainPage> {
   ];
 
   onBackButton(context) async {
-    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 
   @override
